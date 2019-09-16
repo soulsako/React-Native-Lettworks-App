@@ -1,0 +1,25 @@
+{
+  "plugins": [
+      [
+          "module-resolver",
+          {
+              "root": ["./src"],
+              "extensions": [".js", ".ios.js", ".android.js"],
+              "alias": {
+                  "assets": "./src/assets",
+                  "components": "./src/components",
+                  "config": "./src/config",
+                  "navigation": "./src/navigation",
+                  "atoms": "./src/atoms",
+                  // "redux": "./src/redux/",
+                  // "redux": ([, name]) => `redux${name}`,
+                  "actions": "./src/redux/actions",
+                  "reducers": "./src/redux/reducers",
+                  "screens": "./src/screens",
+                  "services": "./src/services",
+                  "theme": "./src/theme"
+              }
+          }
+      ]
+  ]
+}

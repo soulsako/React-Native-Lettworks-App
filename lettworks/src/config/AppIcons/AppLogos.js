@@ -1,0 +1,17 @@
+export const ImagesLogos = {
+  ultimateoutdoors: require('./../../assets/images/logo/ultimateoutdoors.png'),
+  tessuti: require('./../../assets/images/logo/tessuti.png'),
+  scotts: require('./../../assets/images/logo/scotts.png'),
+  logo: require('./../../assets/images/logo/logo.png'),
+  logo_wip: require('./../../assets/images/logo/logo_wip.png'),
+  jdsports: require('./../../assets/images/logo/jdsports.png'),
+  footpatrol: require('./../../assets/images/logo/footpatrol.png'),
+  appIconv2: require('./../../assets/images/logo/app-iconv2.png'),
+  appIcon: require('./../../assets/images/logo/app-icon.png'),
+  appIconW: require('./../../assets/images/logo/app-icon-w.png'),
+  appIconT: require('./../../assets/images/logo/app-icon-t.png'),
+  appIconOld: require('./../../assets/images/logo/app-icon-old.png'),
+  appIconCurved: require('./../../assets/images/logo/app-icon-curved.png'),
+  appIconWip: require('./../../assets/images/logo/app-icon_wip.png'),
+  activeinstinct: require('./../../assets/images/logo/activeinstinct.png'),
+}
