@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Text } from 'atoms';
 import { HeaderMiddle } from 'components/Header';
 import { connect } from 'react-redux';
 import * as Location from 'expo-location';
+import Api from 'services/api'
+import PropertyCard from 'components/PropertyCard';
 
 class HomeScreen extends React.PureComponent {
 
@@ -12,37 +15,55 @@ class HomeScreen extends React.PureComponent {
     }
   };
 
-  state = {
-    location: null, 
-    errorMessage: null
-  }
+  // state = {
+  //   preferedProperties: null, 
+  //   recentlyAddedProperties: null, 
+  //   loading: true
+  // }
 
-  componentDidMount(){
-    console.log("Auth: ", this.props.auth);
-    console.log("User: ", this.props.user);
-  }
+  // componentDidMount(){
+  //   this.getCurrentLocation();
+  // }
 
-  componentWillMount(){
-    this.getLocationAsync();
-  }
+  // getCurrentLocation = async () => {
+  //   let location = await Location.getCurrentPositionAsync({});
+  //   this.getPreferedProperties(location);
+  //   this.getRecentlyAddedProperties(location);
+  // }
 
-  getLocationAsync = async () => {
-    let location = Location.getCurrentPositionAsync({});
-    this.setState({location})
-  }
+  // fetchPreferedProperties = async (location) => {
+  //   //We will make a request to fetch properties within miles radius of this location
+  //   const preferedProperties = await Api.http({ ...this.props.preferences, ...location.coords});
+  //   this.setState({ preferedProperties });
+  // }
+  // getRecentlyAddedProperties = async (location) => {
+  //   const recentlyAddedProperties = await Api.http({ ...location.coords });
+  //   this.setState({ recentlyAddedProperties });
+  // }
 
   render(){
+    const { user } = this.props;
     return (
-      <View style={styles.container}>
-        <Text>Welcome to the home screen. This means you have already completed onboarding and are authenticated</Text>
-        <Text>{JSON.stringify(this.state.location)}</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        {/* <ScrollView keyboardShouldPersistTaps='handled' style={styles.container}>
+          <View style={styles.container_medium}>
+              {user && user.firstName &&
+                <View style={styles.header}>
+                    <Text style={styles.title}>Hi {user.firstName}</Text>
+                </View>
+              }
+            </View>
+          <PropertyCard />
+        </ScrollView> */}
+      </SafeAreaView>
     );
   }
 }
+
 function mapStateToProps(state){
   return {
     auth: state.auth, 
+    preferences: state.user && state.user.preferences, 
     user: state.user
   }
 }
@@ -51,10 +72,10 @@ export default connect(mapStateToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
 
-  container: {
-    flex: 1, 
-    backgroundColor: '#fff'
-  }
+  container: { // section instead of container maybe
+    flex: 1,
+    backgroundColor: '#fff',
+  },
 
 });
 

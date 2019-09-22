@@ -21,6 +21,7 @@ export const IconsGlobal = {
     addToWishlist: Icons.outlineBookmarkGrey,
     addToWishlistActive: Icons.solidBookmarkGrey,
     sadHeart: Icons.outlineHeartSadGrey,
+    greenHeart: Icons.outlineHeartGreen
 }
 
 
@@ -29,6 +30,7 @@ export const IconsGlobal = {
 // ==========================================================================
 export const IconsTaggstar = {
     RAP: Icons.outlineClockBlack,
+    RAPGreen: Icons.outlineClockGreen,
     CAP: Icons.outlineUsersBlack,
     QPH: Icons.outlineFireBlack,
     default: Icons.outlineFireBlack
@@ -44,12 +46,18 @@ export const IconsPDP = {
         sizeGuide: Icons.outlineMeasureTapeLightGrey,
         delivery: Icons.outlineDeliveryTruckLightGrey,
         returns: Icons.solidReturnLightGrey,
-        reviews: Icons.outlineReviewGrey
+        reviews: Icons.outlineReviewGrey,
+        reviewsGreen: Icons.outlineReviewGreen,
+        location: Icons.outlineLocationGreen
     },
     viewProduct: {
         rotate360: Icons.solidRotate360,
         video: Icons.outlineVideoCameraGrey,
         clothes: Icons.outlineClothesGrey,
+    },
+    price: {
+      priceTag: Icons.outlineTagBlack,
+      priceTagGreen: Icons.outlineTagGreen
     },
     soldBy: {
         tessuti: require('./../../assets/images/soldBy/TESSUTI.jpg'),
@@ -59,7 +67,8 @@ export const IconsPDP = {
         scotts: require('./../../assets/images/soldBy/SCOTTS.jpg'),
         size: require('./../../assets/images/soldBy/SIZE.jpg')
     },
-    missingImage: require('./../../assets/images/productImageMissing.png')
+    missingImage: require('./../../assets/images/productImageMissing.png'), 
+    
 }
 
 // ==========================================================================
@@ -79,9 +88,17 @@ export const IconsPLP = {
 // ==========================================================================
 export const IconsLaunch = {
     calendar: Icons.outlineCalendarLightGrey,
+    calendarGreen: Icons.outlineCalendarGreen,
     notification: Icons.outlineBellLightGrey,
 }
 
+// ==========================================================================
+// #PropertyIcons
+// ==========================================================================
+export const IconsProperty = {
+    bedroom: Icons.outlineBedroomGreen,
+    bathroom: Icons.outlineBathroomGreen,
+}
 
 // ==========================================================================
 // #Config Icons: Input

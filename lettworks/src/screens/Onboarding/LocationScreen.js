@@ -1,8 +1,6 @@
 import React from 'react';
-import { Platform, StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Button } from 'atoms';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
 
 import Container from './components/Container';
 import Heading from './components/Heading'
@@ -11,32 +9,14 @@ import BottomBar from './components/BottomBar';
 import Layout from 'config/constants';
 import { AppOnboarding } from 'config/AppOnboarding';
 import { isPermissionDenied } from 'config/functions';
+import PopupMessage from 'components/PopupMessage';
+import * as Location from 'expo-location';
 
 export default class LocationScreen extends React.PureComponent {
 
     state = {
-      location: null, 
-      errorMessage: null
-    }
-
-    componentWillMount(){
-      if(Platform.OS === 'android' && !Constants.isDevice){
-        this.setState({
-          errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!'
-        });
-      }else {
-        this.getLocationAsync();
-      }
-    }
-
-    getLocationAsync = async () => {
-
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if(status !== 'granted'){
-        this.setState({
-          errorMessage: 'Lettworks searches for properties near your current location. Please allow using Location Services to enable this.'
-        })
-      }
+      errorMessage: "", 
+      isVisible: false
     }
 
     onNext = () => {
@@ -47,29 +27,49 @@ export default class LocationScreen extends React.PureComponent {
         this.props.navigation.navigate('Sizes');
     }
 
-    // onSelectNext = async () => {
-    //     await isPermissionDenied('LOCATION');
-    //     this.onNext();
-    // }
+    onSelectNext = async () => {
+        const granted = await isPermissionDenied('LOCATION');
+        if(!granted){
+          this.setState({
+            errorMessage: "Lettworks requires location to show you properties near by. Please enable location to continue.", 
+            isVisible: true
+          });
+        }else {
+          const GPSEnabled = await Location.hasServicesEnabledAsync();
+          if(!GPSEnabled){
+            await Location.getCurrentPositionAsync({});
+          }
+          this.onNext();
+        }
+    }
+
+
+    onCloseMessage = () => {
+      this.setState({ isVisible: false })
+    }
 
     render() {
+      const { errorMessage, isVisible } = this.state;
         return (
             <Container>
-                {/* <TopBar onSkip={this.onNext} /> */}
+  
                 <Heading
                     title={`Enable${'\n'}location`}
-                    subtitle='Turn on your location to enable features like property locator, launches, news, event access and real-time updates'
+                    subtitle='Turn on your location to enable features like store locator, launches, product news, event access and real-time order updates'
                 />
 
                 <View style={styles.imageContainer}>
-                    < Image style={styles.image} source={AppOnboarding.location} />
+                    <Image style={styles.image} source={AppOnboarding.location} />
                 </View>
 
                 <View>
                     <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onSelectNext} colour='transparent'>Enable location</Button>
                 </View>
 
-                <BottomBar selected='LocationScreen' onBack={this.onBack} onNext={this.onNext} />
+                <BottomBar selected='LocationScreen' onBack={this.onBack} />
+
+                {isVisible ? <PopupMessage colour="warning" message={errorMessage} title="Location required" center confirm="Ok, I understand" onConfirm={this.onCloseMessage} /> : null}
+
             </Container>
         );
     }

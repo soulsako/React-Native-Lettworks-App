@@ -9,7 +9,7 @@ class AuthLoading extends React.PureComponent {
     constructor(props) {
         super(props);
         if (props.authenticated) {
-            props.navigation.navigate('Onboarding'); // Should be main screen i.e. "Main"
+            props.navigation.navigate('Main'); // Should be main screen i.e. "Main"
         } else {
             props.navigation.navigate('Auth');
         }

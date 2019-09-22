@@ -296,9 +296,12 @@ export const isPermissionDenied = async (permission, alert = false) => {
         const { status } = await Permissions.askAsync(Permissions[permission]);
         if (status !== 'granted') {
             if (alert) Alert.alert('Permission Denied', errors.permission);
-            return true;
+            return false;
+        }else {
+          return true;
         }
     }
+    return true;
 };
 
 export const mapProductToListing = product => {

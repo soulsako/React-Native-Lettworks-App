@@ -70,7 +70,13 @@ export default {
   // Calendar
   outlineCalendarGrey: require('../assets/icons/outline/calendar/grey.png'),
   outlineCalendarLightGrey: require('../assets/icons/outline/calendar/lightGrey.png'),
+  outlineCalendarGreen: require('../assets/icons/outline/calendar/green.png'),
 
+  // Bedroom
+  outlineBedroomGreen: require('../assets/icons/outline/bedroom/green.png'),
+
+  // Bedroom
+  outlineBathroomGreen: require('../assets/icons/outline/bathroom/green.png'),
   // Camera
   outlineCameraWhite: require('../assets/icons/outline/camera/white.png'),
 
@@ -93,6 +99,7 @@ export default {
   // Clock
   outlineClockLightGrey: require('../assets/icons/outline/clock/lightGrey.png'),
   outlineClockBlack: require('../assets/icons/outline/clock/black.png'),
+  outlineClockGreen: require('../assets/icons/outline/clock/green.png'),
 
   // Colour Swatch
   outlineColourSwatchLightGrey: require('../assets/icons/outline/colour-swatch/lightGrey.png'),
@@ -129,6 +136,7 @@ export default {
   // Heart
   outlineHeartLightGrey: require('../assets/icons/outline/heart/lightGrey.png'),
   outlineHeartWhite: require('../assets/icons/outline/heart/white.png'),
+  outlineHeartGreen: require('../assets/icons/outline/heart/green.png'),
 
   // Heart Sad
   outlineHeartSadGrey: require('../assets/icons/outline/heart-sad/lightGrey.png'),
@@ -139,6 +147,7 @@ export default {
 
   // Location
   outlineLocationLightGrey: require('../assets/icons/outline/location/lightGrey.png'),
+  outlineLocationGreen: require('../assets/icons/outline/location/green.png'),
 
   // Lock-closed
   outlineLockClosedLightGrey: require('../assets/icons/outline/lock-closed/lightGrey.png'),
@@ -164,6 +173,7 @@ export default {
 
   // Tag
   outlineTagBlack: require('../assets/icons/outline/tag/black.png'),
+  outlineTagGreen: require('../assets/icons/outline/tag/green.png'),
 
   // Tag Brand
   outlineTagBrandGrey: require('../assets/icons/outline/tag-brand/grey.png'),
@@ -199,6 +209,7 @@ export default {
       
   // Product Page review icon
   outlineReviewGrey: require('../assets/icons/outline/reviews/reviewGrey.png'),
+  outlineReviewGreen: require('../assets/icons/outline/reviews/green.png'),
   
   //help 
   outlineHelpGrey: require('../assets/icons/outline/help/grey.png'),

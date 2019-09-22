@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         minHeight: 50
     },
     error: {
-        backgroundColor: '#FF6633'
+        backgroundColor: '#B03A2E'
     },
     success: {
         backgroundColor: '#DBF6EF'

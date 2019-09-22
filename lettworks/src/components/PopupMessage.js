@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-navigation';
 
 import Layout from 'config/constants';
 
-
 import { Text, BlankButton } from 'atoms';
 
 export default class PopupMessage extends React.PureComponent {
@@ -16,32 +15,32 @@ export default class PopupMessage extends React.PureComponent {
         this.setState({ rendered: true })
     }
     render() {
-        const { style, message, title, confirm, subtitle, center, leftContent, rightContent } = this.props;
+        const { style, message, title, confirm, subtitle, center, leftContent, rightContent, onConfirm, colour, primary } = this.props;
         return (
             <View style={styles.modal}>
                 <SafeAreaView style={styles.container}>
                     <View style={styles.messageContainer}>
                         {this.state.rendered ?
-                            <Fragment>
-                                <View style={[styles.message, style]}>
-                                    <View style={styles.content}>
-                                        {leftContent || null}
-                                        <View style={{ flex: 1 }}>
-                                            <View style={styles.top}>
-                                                <Text style={styles.title} bold type='w'>{title}</Text>
-                                                {subtitle ? <Text type='w'>{subtitle}</Text> : null}
-                                            </View>
-                                            {message ? <Text type='w'>{message}</Text> : this.props.children}
-                                        </View>
-                                        {rightContent || null}
-                                    </View>
-                                    <BlankButton style={styles.confirm} onPress={this.props.onConfirm}>
-                                        <Text bold type='w'>{confirm}</Text>
-                                    </BlankButton>
-                                </View>
-                                <View style={[styles.triangle, center ? styles.center : null]} />
-                            </Fragment>
-                            : null}
+                          <Fragment>
+                              <View style={[styles.message, styles[colour]]}>
+                                  <View style={styles.content}>
+                                      {leftContent || null}
+                                      <View style={{ flex: 1 }}>
+                                          <View style={styles.top}>
+                                              <Text style={styles.title} extraLarge bold type='w'>{title}</Text>
+                                              {subtitle ? <Text type='w'>{subtitle}</Text> : null}
+                                          </View>
+                                          {message ? <Text type='w' medium lineHeight>{message}</Text> : this.props.children}
+                                      </View>
+                                      {rightContent || null}
+                                  </View>
+                                  <BlankButton style={styles.confirm} onPress={onConfirm}>
+                                    <Text bold type='w'>{confirm}</Text>
+                                  </BlankButton>
+                              </View>
+                              <View style={[styles.triangle, center ? styles.center : null, {borderBottomColor: primary ? '#4BD4B0' : "#C0392B"}]} />
+                          </Fragment>
+                          : null}
                     </View>
                 </SafeAreaView>
             </View>
@@ -82,10 +81,13 @@ const styles = StyleSheet.create({
     confirm: {
         paddingHorizontal: 10,
         alignSelf: 'flex-end',
-        paddingTop: 10
+        paddingTop: 10, 
+        borderWidth: 1, 
+        borderColor: '#eee', 
+        borderRadius: 7, 
+        margin: 15
     },
     message: {
-        backgroundColor: '#4BD4B0',
         marginHorizontal: 20,
         borderRadius: 10,
         padding: 10,
@@ -93,6 +95,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 60,
         width: Layout.window.width - 40
+    },
+    primary: {
+      backgroundColor: '#4BD4B0',
+    }, 
+    warning: {
+      backgroundColor: "#C0392B"
     },
     triangle: {
         position: 'absolute',
@@ -108,7 +116,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 10,
         borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
-        borderBottomColor: '#4BD4B0',
         transform: [{ rotate: '180deg' }]
     },
     center: {

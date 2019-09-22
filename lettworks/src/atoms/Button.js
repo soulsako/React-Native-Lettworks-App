@@ -15,6 +15,8 @@ const Colors = {
     noticeBackground: tintColor,
     noticeText: '#fff',
     primary: '#4BD4B0',
+    black: "#111111", 
+    blackHover: "#333",
     primaryHover: '#44b396',
     secondaryHover: '#E7E8E9',
     tertiary: '#FF6633',
@@ -171,6 +173,9 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         fontFamily: 'Medium',
         textAlign: 'center'
+    },
+    black: {
+      backgroundColor: '#111111'
     },
     grey: {
         backgroundColor: '#F7F7F7'

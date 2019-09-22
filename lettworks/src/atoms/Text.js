@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     extraLarge: {
         fontSize: 18
     },
-
     // Font Weights
     bold: {
         fontFamily: 'Bold'
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     },
 
     lineHeight: {
-        lineHeight: 18
+        lineHeight: 16
     },
 
     // Text Decoration
