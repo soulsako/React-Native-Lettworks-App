@@ -12,7 +12,7 @@ import Slider from './components/Slider';
 import SelectBox from './components/SelectBox';
 import Constants from 'config/constants';
 
-import { salePrice, rentPrice } from 'data/prices';
+import { salePrice, rentPrice } from 'data';
 
 class SizesScreen extends React.PureComponent {
     constructor(props) {

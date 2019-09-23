@@ -1,0 +1,231 @@
+{
+  "plus_code" : {
+     "compound_code" : "P27Q+MC New York, NY, USA",
+     "global_code" : "87G8P27Q+MC"
+  },
+  "results" : [
+     {
+        "address_components" : [
+           {
+              "long_name" : "279",
+              "short_name" : "279",
+              "types" : [ "street_number" ]
+           },
+           {
+              "long_name" : "Bedford Avenue",
+              "short_name" : "Bedford Ave",
+              "types" : [ "route" ]
+           },
+           {
+              "long_name" : "Williamsburg",
+              "short_name" : "Williamsburg",
+              "types" : [ "neighborhood", "political" ]
+           },
+           {
+              "long_name" : "Brooklyn",
+              "short_name" : "Brooklyn",
+              "types" : [ "political", "sublocality", "sublocality_level_1" ]
+           },
+           {
+              "long_name" : "Kings County",
+              "short_name" : "Kings County",
+              "types" : [ "administrative_area_level_2", "political" ]
+           },
+           {
+              "long_name" : "New York",
+              "short_name" : "NY",
+              "types" : [ "administrative_area_level_1", "political" ]
+           },
+           {
+              "long_name" : "United States",
+              "short_name" : "US",
+              "types" : [ "country", "political" ]
+           },
+           {
+              "long_name" : "11211",
+              "short_name" : "11211",
+              "types" : [ "postal_code" ]
+           }
+        ],
+        "formatted_address" : "279 Bedford Ave, Brooklyn, NY 11211, USA",
+        "geometry" : {
+           "location" : {
+              "lat" : 40.7142484,
+              "lng" : -73.9614103
+           },
+           "location_type" : "ROOFTOP",
+           "viewport" : {
+              "northeast" : {
+                 "lat" : 40.71559738029149,
+                 "lng" : -73.9600613197085
+              },
+              "southwest" : {
+                 "lat" : 40.71289941970849,
+                 "lng" : -73.96275928029151
+              }
+           }
+        },
+        "place_id" : "ChIJT2x8Q2BZwokRpBu2jUzX3dE",
+        "plus_code" : {
+           "compound_code" : "P27Q+MC Brooklyn, New York, United States",
+           "global_code" : "87G8P27Q+MC"
+        },
+        "types" : [
+           "bakery",
+           "cafe",
+           "establishment",
+           "food",
+           "point_of_interest",
+           "store"
+        ]
+     }
+
+  ],
+  "status" : "OK"
+}
+
+Details Object {
+  "description": "72 Parkside Mews, Whitefield, Manchester, UK",
+  "id": "759ce2b04beee06a26c28705d0926fcc51e4b343",
+  "matched_substrings": Array [
+    Object {
+      "length": 16,
+      "offset": 0,
+    },
+  ],
+  "place_id": "Eiw3MiBQYXJrc2lkZSBNZXdzLCBXaGl0ZWZpZWxkLCBNYW5jaGVzdGVyLCBVSyIwEi4KFAoSCcEdWUpbpXtIERfxrvAgb3U3EEgqFAoSCdVv07REpXtIEXc48S9wvBp-",
+  "reference": "Eiw3MiBQYXJrc2lkZSBNZXdzLCBXaGl0ZWZpZWxkLCBNYW5jaGVzdGVyLCBVSyIwEi4KFAoSCcEdWUpbpXtIERfxrvAgb3U3EEgqFAoSCdVv07REpXtIEXc48S9wvBp-",
+  "structured_formatting": Object {
+    "main_text": "72 Parkside Mews",
+    "main_text_matched_substrings": Array [
+      Object {
+        "length": 16,
+        "offset": 0,
+      },
+    ],
+    "secondary_text": "Whitefield, Manchester, UK",
+  },
+  "terms": Array [
+    Object {
+      "offset": 0,
+      "value": "72 Parkside Mews",
+    },
+    Object {
+      "offset": 18,
+      "value": "Whitefield",
+    },
+    Object {
+      "offset": 30,
+      "value": "Manchester",
+    },
+    Object {
+      "offset": 42,
+      "value": "UK",
+    },
+  ],
+  "types": Array [
+    "street_address",
+    "geocode",
+  ],
+}
+
+
+
+Object {
+  "html_attributions": Array [],
+  "result": Object {
+    "address_components": Array [
+      Object {
+        "long_name": "72",
+        "short_name": "72",
+        "types": Array [
+          "street_number",
+        ],
+      },
+      Object {
+        "long_name": "Parkside Mews",
+        "short_name": "Parkside Mews",
+        "types": Array [
+          "route",
+        ],
+      },
+      Object {
+        "long_name": "Whitefield",
+        "short_name": "Whitefield",
+        "types": Array [
+          "locality",
+          "political",
+        ],
+      },
+      Object {
+        "long_name": "Manchester",
+        "short_name": "Manchester",
+        "types": Array [
+          "postal_town",
+        ],
+      },
+      Object {
+        "long_name": "Greater Manchester",
+        "short_name": "Greater Manchester",
+        "types": Array [
+          "administrative_area_level_2",
+          "political",
+        ],
+      },
+      Object {
+        "long_name": "England",
+        "short_name": "England",
+        "types": Array [
+          "administrative_area_level_1",
+          "political",
+        ],
+      },
+      Object {
+        "long_name": "United Kingdom",
+        "short_name": "GB",
+        "types": Array [
+          "country",
+          "political",
+        ],
+      },
+      Object {
+        "long_name": "M45 8QD",
+        "short_name": "M45 8QD",
+        "types": Array [
+          "postal_code",
+        ],
+      },
+    ],
+    "adr_address": "<span class=\"street-address\">72 Parkside Mews</span>, <span class=\"extended-address\">Whitefield</span>, <span class=\"locality\">Manchester</span> <span class=\"postal-code\">M45 8QD</span>, <span class=\"country-name\">UK</span>",
+    "formatted_address": "72 Parkside Mews, Whitefield, Manchester M45 8QD, UK",
+    "geometry": Object {
+      "location": Object {
+        "lat": 53.5523509,
+        "lng": -2.2888105,
+      },
+      "viewport": Object {
+        "northeast": Object {
+          "lat": 53.5536998802915,
+          "lng": -2.287461519708498,
+        },
+        "southwest": Object {
+          "lat": 53.5510019197085,
+          "lng": -2.290159480291502,
+        },
+      },
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+    "id": "aa9b1b997ae4da232a52133521367789ec49b5d1",
+    "name": "72 Parkside Mews",
+    "place_id": "EjQ3MiBQYXJrc2lkZSBNZXdzLCBXaGl0ZWZpZWxkLCBNYW5jaGVzdGVyIE00NSA4UUQsIFVLIjASLgoUChIJwR1ZSlule0gRF_Gu8CBvdTcQSCoUChIJ1W_TtESle0gRdzjxL3C8Gn4",
+    "reference": "EjQ3MiBQYXJrc2lkZSBNZXdzLCBXaGl0ZWZpZWxkLCBNYW5jaGVzdGVyIE00NSA4UUQsIFVLIjASLgoUChIJwR1ZSlule0gRF_Gu8CBvdTcQSCoUChIJ1W_TtESle0gRdzjxL3C8Gn4",
+    "scope": "GOOGLE",
+    "types": Array [
+      "street_address",
+    ],
+    "url": "https://maps.google.com/?q=72+Parkside+Mews,+Whitefield,+Manchester+M45+8QD,+UK&ftid=0x487ba55b4a591dc1:0xd95b5098c83ba593",
+    "utc_offset": 60,
+    "vicinity": "Whitefield",
+  },
+  "status": "OK",
+}

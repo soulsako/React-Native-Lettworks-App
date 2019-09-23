@@ -13,7 +13,6 @@ import Icons from './../Icons';
 //  - Main Nav
 //  - Bottom Nav
 
-
 // ==========================================================================
 // #Config Icons: Global Icons
 // ==========================================================================
@@ -23,7 +22,6 @@ export const IconsGlobal = {
     sadHeart: Icons.outlineHeartSadGrey,
     greenHeart: Icons.outlineHeartGreen
 }
-
 
 // ==========================================================================
 // #Config Icons: Tagstar
@@ -48,7 +46,8 @@ export const IconsPDP = {
         returns: Icons.solidReturnLightGrey,
         reviews: Icons.outlineReviewGrey,
         reviewsGreen: Icons.outlineReviewGreen,
-        location: Icons.outlineLocationGreen
+        location: Icons.outlineLocationGreen, 
+        locationGrey: Icons.outlineLocationLightGrey
     },
     viewProduct: {
         rotate360: Icons.solidRotate360,

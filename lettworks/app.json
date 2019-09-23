@@ -19,6 +19,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "googleMaps": {
+      "APIKey": "AIzaSyBbka6uHiBr9pLlE_QVfwUuChwwOmeDE68"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

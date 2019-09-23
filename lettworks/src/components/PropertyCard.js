@@ -6,20 +6,21 @@ import { IconsPDP, IconsProperty, IconsLaunch, IconsTaggstar, IconsGlobal } from
 export default class PropertyCard extends React.PureComponent {
 
   render(){
+    const { rent, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address } = this.props;
     return (
       <View style={styles.card}>
           <View style={styles.top}>  
-            <Image source={require('../assets/images/intro/home2.jpg')} style={styles.image}/>
+            <Image source={require('./../assets/images/properties/tour-5d83d0aeecba25230421d7b6-1569198984579-cover.jpeg')} style={styles.image}/>
 
             <View style={styles.priceContainer}>
               <Image source={IconsPDP.price.priceTagGreen} style={styles.icon}/>
-              <Text mediumWeight style={styles.price}>£995 pcm</Text>
+              <Text mediumWeight style={styles.price}>£{rent} pcm</Text>
             </View>
           </View>
           
           <View style={styles.bottom}>
             <View style={styles.title}>
-              <Text black mediumWeight large style={styles.heading}>5 Bedroom House in Chester County, PA</Text>
+              <Text black mediumWeight large style={styles.heading}>{address}</Text>
               <Image source={IconsGlobal.greenHeart} style={styles.icon}/>
             </View>
 
@@ -27,12 +28,12 @@ export default class PropertyCard extends React.PureComponent {
 
               <View style={[styles.infoBox, styles.borderRight]}>
                 <Image source={IconsProperty.bedroom} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black style={{textAlign: 'center'}}>5 Bedrooms</Text>
+                <Text black style={{textAlign: 'center'}}>{bedrooms} Bedrooms</Text>
               </View>
 
               <View style={[styles.infoBox, styles.borderRight]}>
                 <Image source={IconsProperty.bathroom} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black style={{textAlign: 'center'}}>2 Bathrooms</Text>
+                <Text black style={{textAlign: 'center'}}>{bathrooms} Bathrooms</Text>
               </View>
 
               <View style={styles.infoBox}>
@@ -56,14 +57,14 @@ export default class PropertyCard extends React.PureComponent {
 
               <View style={[styles.infoBox, styles.borderRight]}>
                 <Image source={IconsPDP.tabs.reviewsGreen} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black>4.8</Text>
+                <Text black>{ratingsAverage}</Text>
               </View>
 
             </View>
 
             <View style={styles.description}>
               <Text large black bold style={{marginBottom: 5}}>Description</Text>
-              <Text black>Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing...</Text>
+              <Text black>{description.substring(0, 120)}</Text>
             </View>
 
             <View style={styles.buttonContainer}>

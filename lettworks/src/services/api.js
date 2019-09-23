@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import { isDev } from 'config/functions';
 import Constants from "expo-constants";
+import { expo } from '../../app.json';
 
 const { manifest } = Constants;
 const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts.dev
@@ -14,6 +15,23 @@ const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts
 // const ROOT_URL = getApiUrl();
 
 class API {
+
+    google(data){
+      let url;
+      if(typeof(data) === typeof(String())){
+        url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${data}&key=${expo.googleMaps.APIKey}`
+      }else {
+        url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}&key=${expo.googleMaps.APIKey}`
+      }
+      return axios.get(url)
+      .then(response => {
+        return response.data
+      })
+      .catch(error => {
+        return error.response.data
+      })
+    }
+
     clear() {
         this.token = null;
         this.loggedIn = false;
@@ -97,7 +115,7 @@ class API {
   // }
       const config = {
         method: details.method,
-        url: `${api}/users/${details.endpoint}`, 
+        url: `${api}/${details.type}/${details.endpoint}`,
         data: details.data, 
       }
       // console.log("config", config);
@@ -114,7 +132,6 @@ class API {
       //             return acc;
       //         }, {});
       // }
-      
       return axios(config)
       .then(response => {
           return response.data;
