@@ -24,7 +24,7 @@ export default class LocationScreen extends React.PureComponent {
     }
 
     onBack = () => {
-        this.props.navigation.navigate('Sizes');
+        this.props.navigation.navigate('Prices');
     }
 
     onSelectNext = async () => {
@@ -63,10 +63,10 @@ export default class LocationScreen extends React.PureComponent {
                 </View>
 
                 <View>
-                    <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onSelectNext} colour='transparent'>Enable location</Button>
+                    <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onSelectNext} colour='black'>Enable location</Button>
                 </View>
 
-                <BottomBar selected='LocationScreen' onBack={this.onBack} />
+                <BottomBar selected='LocationScreen' onBack={this.onBack} hideNext/>
 
                 {isVisible ? <PopupMessage colour="warning" message={errorMessage} title="Location required" center confirm="Ok, I understand" onConfirm={this.onCloseMessage} /> : null}
 
@@ -90,9 +90,6 @@ const styles = StyleSheet.create({
     },
     actionButton: {
         width: '70%',
-        height: 50,
-        borderRadius: 5,
-        borderWidth: 0.5,
-        borderColor: '#A8A8A8'
+        height: 50
     }
 });

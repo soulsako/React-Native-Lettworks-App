@@ -6,7 +6,7 @@ import { IconsPDP, IconsProperty, IconsLaunch, IconsTaggstar, IconsGlobal } from
 export default class PropertyCard extends React.PureComponent {
 
   render(){
-    const { rent, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address } = this.props;
+    const { rent, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address, distance } = this.props;
     return (
       <View style={styles.card}>
           <View style={styles.top}>  
@@ -38,7 +38,7 @@ export default class PropertyCard extends React.PureComponent {
 
               <View style={styles.infoBox}>
                 <Image source={IconsPDP.tabs.location} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black>2.3 mil</Text>
+                <Text black>{distance} mil</Text>
               </View>
 
             </View>
@@ -82,6 +82,8 @@ const styles = StyleSheet.create({
   card: { 
     backgroundColor: '#ffffff',
     shadowColor: "#ddd",
+    borderRadius: 5,
+    overflow: 'hidden',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -90,9 +92,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
   }, 
-  top: {
-
-  },
+  top: {},
   image: {
     width: '100%', 
     height: 240
@@ -112,9 +112,7 @@ const styles = StyleSheet.create({
     height: 25, 
     marginRight: 3
   }, 
-  price: {
-
-  },
+  price: {},
   bottom: {
     padding: 15
   },
@@ -154,9 +152,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderRightColor: '#eee'
   }, 
-  description: {
-
-  }, 
+  description: {}, 
   buttonContainer: {
     flexDirection: 'row', 
     alignItems: 'center', 

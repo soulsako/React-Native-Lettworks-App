@@ -19,6 +19,9 @@ export default {
   // #Solid Bag
   solidBagGrey: require('../assets/icons/solid/bag/grey.png'),
 
+  // #Solid Ball
+  solidBallGreen: require('../assets/icons/solid/ball/green.png'),
+
   // #Solid Bookmark
   solidBookmarkGrey: require('../assets/icons/solid/bookmark/grey.png'),
 

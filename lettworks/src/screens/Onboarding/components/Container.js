@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'relative',
         justifyContent: 'space-between',
-        backgroundColor: '#111111',
+        backgroundColor: '#fff',
         paddingTop: 40,
         padding: 20
     }

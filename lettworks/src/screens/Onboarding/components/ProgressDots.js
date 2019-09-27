@@ -3,7 +3,8 @@ import { StyleSheet, View } from 'react-native';
 
 const screens = [
     'PersonaliseScreen',
-    'SizesScreen',
+    'PropertyTypeScreen',
+    'PricesScreen',
     'LocationScreen',
     'NotificationsScreen',
 ];

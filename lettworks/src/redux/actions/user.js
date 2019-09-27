@@ -31,15 +31,7 @@ export function fetchCustomer() {
 }
 
 export function updateUser(data) {
-  //Data = 
-//   {
-//     pushToken: {
-//         expoToken,
-//         platform: Platform.OS,
-//         deviceToken: deviceToken.data,
-//         type: deviceToken.type
-//     }
-// }
+  console.log("updating user action");
     return async (dispatch, getState) => {
         // const userObj = getState().user;
         // const authObj = getState().auth;
@@ -50,9 +42,13 @@ export function updateUser(data) {
             const user = await api.http({
                 endpoint: 'updateme',
                 method: 'patch',
+                type: 'users',
                 data, 
                 token: auth.token
             });
+            console.log('====================================');
+            console.log(user);
+            console.log('====================================');
             // console.log("User updated and to be added to store: ", user);
             //Updating store
             dispatch({

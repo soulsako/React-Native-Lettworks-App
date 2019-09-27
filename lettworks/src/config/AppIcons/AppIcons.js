@@ -20,7 +20,8 @@ export const IconsGlobal = {
     addToWishlist: Icons.outlineBookmarkGrey,
     addToWishlistActive: Icons.solidBookmarkGrey,
     sadHeart: Icons.outlineHeartSadGrey,
-    greenHeart: Icons.outlineHeartGreen
+    greenHeart: Icons.outlineHeartGreen, 
+    greenBall: Icons.solidBallGreen
 }
 
 // ==========================================================================

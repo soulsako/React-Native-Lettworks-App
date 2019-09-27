@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView, Platform, Image } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Platform, Image, Modal } from 'react-native';
 import { Text } from 'atoms';
 import { HeaderMiddle } from 'components/Header';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import { Icon } from 'components';
 import { expo } from '../../../app.json';
 import { IconsPDP } from 'config/AppIcons/AppIcons'
 import Loader from 'components/Loader';
+// import FiltersScreen from 'screens/other/FiltersScreen'
 
 class HomeScreen extends React.PureComponent {
 
@@ -21,15 +22,25 @@ class HomeScreen extends React.PureComponent {
         headerTitle: <HeaderMiddle title="Lettworks" />
     }
   };
-
-  state = {
-    loading: true, 
-    distance: 10, 
-    pickerItems: distanceItems,
-    currAddress: "", 
-    latitude: '',
-    longitude: '', 
-    properties: null
+  constructor(props){
+    super(props);
+    this.state = {
+      loading: true, 
+      distance: 10, 
+      pickerItems: distanceItems,
+      currAddress: "", 
+      latitude: '',
+      longitude: '',
+      preferences: props.preferences,
+      properties: null, 
+      showFilters: false, 
+      sortItems: [
+        { label: 'Recommended', value: '' },
+        { label: 'Price - High to low', value: '-sellingprice' },
+        { label: 'Price - Low to high', value: 'sellingprice' },
+        { label: 'Latest', value: 'age' },
+      ]
+    }
   }
 
   componentDidMount(){
@@ -71,39 +82,36 @@ class HomeScreen extends React.PureComponent {
   }
 
   makeRequestToGetProperties = async (lat, lng) => {
-    const endpoint = `within/${this.state.distance}/center/${lat},${lng}/unit/mil`;
+    const endpoint = `within/${this.state.distance}/center/${lat},${lng}/unit/mil?bedroon[lte:3]`;
     const response = await Api.http({
       method: 'GET',
       type: 'properties',
       endpoint
     });
-    console.log(response.properties);
     this.setState({loading: false, properties: response.properties});
   }
 
   renderProperties = () => {
     return this.state.properties.map(property => (
       <Fragment key={property._id}>
-        <PropertyCard 
-          rent={property.rent} 
-          description={property.description}
-          bedrooms={property.bedrooms}
-          bathrooms={property.bathrooms}
-          ratingsAverage={property.ratingsAverage}
-          address={property.address}
-          imageCover={property.imageCover}
-        />
+        <PropertyCard {...property} />
         <View style={styles.seperator} />
       </Fragment>
     ));
   }
 
-  renderPickerIcon = () => <Icon.Ionicons name="md-arrow-down" size={22} color='#959595' />
 
+
+  renderPickerIcon = () => <Icon.Ionicons name="md-arrow-down" size={22} color='#959595' />
   //Use rapid Api to fetch towns close by and render on top of screen for quick filters 
+  
   quickFilters = () => {
 
   }
+
+  onCloseFilters = () => {
+    this.setState({ showFilters: false });
+  };
 
   render(){
     const { distance, pickerItems, currAddress, loading, properties } = this.state;
@@ -113,23 +121,23 @@ class HomeScreen extends React.PureComponent {
 
         <View style={styles.searchContainer}>
 
-            <GooglePlacesAutocomplete
-              placeholder={currAddress.substring(0, 20)}
-              minLength={2} // minimum length of text to search
-              autoFocus={false}
-              returnKeyType={'search'} 
-              keyboardAppearance={'light'}
-              listViewDisplayed={false} // true/false/undefined
-              fetchDetails={false}
-              onPress={this.onLocationSelectedHandler}
-              getDefaultValue={() => ''}
-              query={{key: expo.googleMaps.APIKey,language: 'en', components: 'country:gb'}}
-              styles={googleInput}
-              currentLocation={true} 
-              currentLocationLabel="Use current location"
-              debounce={200} 
-              renderRightButton={() => <Image source={IconsPDP.tabs.locationGrey} style={styles.icon}/>}
-            />
+          <GooglePlacesAutocomplete
+            placeholder={currAddress.substring(0, 20)}
+            minLength={2} // minimum length of text to search
+            autoFocus={false}
+            returnKeyType={'search'} 
+            keyboardAppearance={'light'}
+            listViewDisplayed={false} // true/false/undefined
+            fetchDetails={false}
+            onPress={this.onLocationSelectedHandler}
+            getDefaultValue={() => ''}
+            query={{key: expo.googleMaps.APIKey,language: 'en', components: 'country:gb'}}
+            styles={googleInput}
+            currentLocation={true} 
+            currentLocationLabel="Use current location"
+            debounce={200} 
+            renderRightButton={() => <Image source={IconsPDP.tabs.locationGrey} style={styles.icon}/>}
+          />
 
           <View style={styles.pickerContainer}>
             <RNPickerSelect
@@ -153,18 +161,30 @@ class HomeScreen extends React.PureComponent {
           </View> : null
         }
         {loading || !properties ? <Loader /> : 
+        //This should be flat list
           <ScrollView keyboardShouldPersistTaps='handled' style={styles.scrollContainer}>
-            {/* <View style={styles.container_medium}>
-                {user && user.firstName &&
-                  <View style={styles.header}>
-                      <Text style={styles.title}>Hi {user.firstName}</Text>
-                  </View>
-                }
-              </View> */}
             {this.renderProperties()}
           </ScrollView>
         }
-
+        {/* {showFilters ? (
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={true}
+          onRequestClose={this.onCloseFilters || false}
+          >
+          <FiltersScreen
+            loading={loading}
+            total={productsTotal}
+            selected={selectedFilters}
+            hidden={Object.keys(preSelectedFilters || {})}
+            breadcrumbs={breadcrumbs}
+            filters={filters}
+            onUpdate={this.onUpdate}
+            onDone={this.onCloseFilters}
+          />
+        </Modal>
+        ) : null} */}
       </SafeAreaView>
     );
   }
@@ -243,6 +263,7 @@ const googleInput = StyleSheet.create({
   textInput: {
     fontFamily: 'Regular', 
   },
+  //Use these to style google autocomplete input
   loader: {},
   listView: {},
   poweredContainer: {},
@@ -252,7 +273,7 @@ const googleInput = StyleSheet.create({
 });
 
 const defaultPickerStyles = {
-  
+
   fontSize: 15,
   borderColor: '#ccc',
   color: 'black',

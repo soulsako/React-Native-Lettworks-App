@@ -12,8 +12,8 @@ export default class Heading extends React.PureComponent {
         const { title, subtitle } = this.props;
         return (
             <View>
-                {title ? <Text style={styles.title} bold type='w'>{title}</Text> : null}
-                {subtitle ? <Text medium type='w'>{subtitle}</Text> : null}
+                {title ? <Text style={styles.title} bold black>{title}</Text> : null}
+                {subtitle ? <Text medium black lineHeight={18}>{subtitle}</Text> : null}
             </View>
         )
     }

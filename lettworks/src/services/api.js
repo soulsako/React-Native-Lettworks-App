@@ -97,22 +97,6 @@ class API {
     }
     http(details) { 
 
-      //Data:
-//   {
-//   preferences: {
-//     type: this.state.selectedType || undefined,
-//     selectedBedroom: this.state.selectedBedroom || undefined,
-//     propertyType: this.state.selectedPropertyType || undefined
-// }
-//}
-// }
-
-    //   {
-  //     endpoint: `/updateme`,
-  //     method: 'patch',
-  //     data, 
-  //     token: auth.token
-  // }
       const config = {
         method: details.method,
         url: `${api}/${details.type}/${details.endpoint}`,

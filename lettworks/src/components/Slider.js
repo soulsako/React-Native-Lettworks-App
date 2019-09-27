@@ -6,18 +6,18 @@ import { TouchableItem } from 'components';
 class Slider extends Component {
 
   render() {
-    const { title, selectedType, currentSlider, type, onPress, selectedValue, scrollRef } = this.props;
+    const { title, onPress, selectedValue, scrollRef, values } = this.props;
     return (
       <View style={styles.selectRow}>
           <View style={{ flexDirection: 'row' }}>
-              <Text bold extraLarge type='w'>{title}</Text>
+              <Text bold extraLarge black>{title}</Text>
           </View>
           <View style={styles.selector}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} ref={scrollRef}>
-              {currentSlider[type].map(el => {
+              {values.map(el => {
                   return (
-                    <TouchableItem key={el} style={[styles.button, selectedType && selectedValue === el ? styles.buttonSelected : null]} onPress={() => onPress(el, type)}>
-                      <Text bold medium type='w'>{el}</Text>
+                    <TouchableItem key={el} style={[styles.button, selectedValue === el ? styles.buttonSelected : null]} onPress={() => onPress(el)}>
+                      <Text bold medium black style={{textAlign: 'center'}}>{el}</Text>
                     </TouchableItem>
                   );
               })}
@@ -33,7 +33,7 @@ export default Slider;
 const styles = StyleSheet.create({
 
   selectRow: {
-    marginVertical: 10
+    marginVertical: 10,
 },
   selector: {
       alignItems: 'center',
@@ -46,12 +46,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    width: 60,
+    width: 70,
     height: 40
   },
   buttonSelected: {
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#4BD4B0'
+    backgroundColor: '#4BD4B0'
   }
 });

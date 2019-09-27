@@ -38,10 +38,10 @@ class NotificationsScreen extends React.PureComponent {
                 </View>
 
                 <View>
-                  <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onSelectNext} colour='transparent'>Enable notifications</Button>
+                  <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onSelectNext} colour='black'>Enable notifications</Button>
                 </View>
 
-                <BottomBar selected='NotificationsScreen' onBack={this.onBack} onNext={this.onNext} />
+                <BottomBar selected='NotificationsScreen' onBack={this.onBack} onNext={this.onNext} hideNext/>
             </Container>
         );
     }
@@ -64,9 +64,6 @@ const styles = StyleSheet.create({
   },
   actionButton: {
       width: '70%',
-      height: 50,
-      borderRadius: 5,
-      borderWidth: 0.5,
-      borderColor: '#A8A8A8'
+      height: 50
   }
 });

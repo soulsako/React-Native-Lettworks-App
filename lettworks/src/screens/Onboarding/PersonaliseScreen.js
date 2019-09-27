@@ -7,7 +7,6 @@ import { Button } from 'atoms';
 import Container from './components/Container';
 import Heading from './components/Heading';
 import TopBar from './components/TopBar';
-import BottomBar from './components/BottomBar';
 
 class PersonaliseScreen extends React.PureComponent {
     state = {
@@ -15,7 +14,7 @@ class PersonaliseScreen extends React.PureComponent {
     }
    
     onNext = () => {
-        this.props.navigation.navigate('Sizes');
+        this.props.navigation.navigate('Property');
     }
 
     render() {
@@ -31,10 +30,9 @@ class PersonaliseScreen extends React.PureComponent {
                 />
 
                 <View>
-                    <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onNext} colour='transparent'>Get Started</Button>
+                    <Button style={styles.buttonContainer} medium buttonStyle={styles.actionButton} onPress={this.onNext} colour='black'>Get Started</Button>
                 </View>
-
-                <BottomBar hideBack onNext={this.onNext} selected='PersonaliseScreen' />
+                <View></View>
             </Container>
         );
     }
@@ -56,9 +54,6 @@ const styles = StyleSheet.create({
     },
     actionButton: {
         width: '70%',
-        height: 50,
-        borderRadius: 5,
-        borderWidth: 0.5,
-        borderColor: '#A8A8A8'
+        height: 50
     }
 });
