@@ -151,6 +151,7 @@ export default {
   // Location
   outlineLocationLightGrey: require('../assets/icons/outline/location/lightGrey.png'),
   outlineLocationGreen: require('../assets/icons/outline/location/green.png'),
+  outlineLocationWhite: require('../assets/icons/outline/location/white.png'),
 
   // Lock-closed
   outlineLockClosedLightGrey: require('../assets/icons/outline/lock-closed/lightGrey.png'),

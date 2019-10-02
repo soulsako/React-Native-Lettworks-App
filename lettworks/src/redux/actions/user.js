@@ -30,8 +30,8 @@ export function fetchCustomer() {
     }
 }
 
+
 export function updateUser(data) {
-  console.log("updating user action");
     return async (dispatch, getState) => {
         // const userObj = getState().user;
         // const authObj = getState().auth;
@@ -47,7 +47,7 @@ export function updateUser(data) {
                 token: auth.token
             });
             console.log('====================================');
-            console.log(user);
+            console.log("UPDATED USER: ", user);
             console.log('====================================');
             // console.log("User updated and to be added to store: ", user);
             //Updating store

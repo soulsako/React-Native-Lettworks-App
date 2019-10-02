@@ -8,10 +8,9 @@ import Heading from './components/Heading';
 import Slider from 'components/Slider';
 import BottomBar from './components/BottomBar';
 import Container from './components/Container';
-import Loader from 'components/Loader';
-import { Button } from 'atoms';
 
 class PricesScreen extends Component {
+
   constructor(props) {
     super(props);
 
@@ -33,9 +32,21 @@ class PricesScreen extends Component {
   }
   
   onSelect = (value, type) => {
+
+    const { selectedMinPrice, selectedMaxPrice } = this.state;
+
     if (type === 'minPrice') {
+      if(!isNaN(value) && value > selectedMaxPrice){
+        selectedMinPrice = selectedMaxPrice;
+        selectedMaxPrice = value;
+        this.setState({selectedMinPrice, selectedMaxPrice})
+      }
       this.setState({ selectedMinPrice: value })
     } else if(type === 'maxPrice'){
+      if(!isNaN(value) && value < selectedMinPrice) {
+        value = selectedMinPrice
+        this.setState({ selectedMaxPrice: value })
+      };
       this.setState({ selectedMaxPrice: value })
     }else {
       this.setState({ selectedRadius: value })
@@ -43,10 +54,17 @@ class PricesScreen extends Component {
   }
 
   onNextSelect = async () => {
-  let { selectedMinPrice, selectedMaxPrice, selectedRadius } = this.state;
+
+  let { selectedMinPrice, selectedMaxPrice, selectedRadius, selectedType } = this.state;
 
   if(typeof(selectedMinPrice) === typeof(String())) selectedMinPrice = selectedMinPrice.replace(/K/, "000");
   if(typeof(selectedMaxPrice) === typeof(String())) selectedMaxPrice = selectedMaxPrice.replace(/K/, "000");
+  if(selectedType === 'rent' && selectedMinPrice === 'No min') selectedMinPrice = 100;
+  if(selectedType === 'rent' && selectedMaxPrice === 'No max') selectedMaxPrice = 10000;
+  if(selectedType === 'sale' && selectedMinPrice === 'No min') selectedMinPrice = 10000;
+  if(selectedType === 'sale' && selectedMinPrice === 'No max') selectedMaxPrice = 1000000;
+  if(selectedRadius === "This area only") selectedRadius = 10;
+
     try {
       await this.props.updateUser({
         preferences: {
@@ -67,7 +85,7 @@ class PricesScreen extends Component {
   }
 
   onNext = () => {
-    this.props.navigation.navigate('Location');
+    this.props.navigation.navigate('Notifications');
   }
 
   render() {
@@ -100,11 +118,7 @@ class PricesScreen extends Component {
 
           </View>
 
-          <View>
-            <Button style={styles.buttonContainer} buttonStyle={styles.actionButton} onPress={this.onNextSelect} colour='black'>Next</Button>
-          </View>
-
-          <BottomBar selected='PricesScreen' onBack={this.onBack} onNext={this.onNextSelect} hideNext/>
+          <BottomBar selected='PricesScreen' onBack={this.onBack} onNext={this.onNextSelect} />
         </Container >
     );
   }
@@ -124,10 +138,6 @@ const styles = StyleSheet.create({
       borderWidth: 0.5,
       borderColor: '#eee',
       marginBottom: 25
-  }, 
-  buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
   }, 
   actionButton: {
     width: '40%',

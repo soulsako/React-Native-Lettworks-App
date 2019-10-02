@@ -48,7 +48,8 @@ export const IconsPDP = {
         reviews: Icons.outlineReviewGrey,
         reviewsGreen: Icons.outlineReviewGreen,
         location: Icons.outlineLocationGreen, 
-        locationGrey: Icons.outlineLocationLightGrey
+        locationGrey: Icons.outlineLocationLightGrey, 
+        locationWhite: Icons.outlineLocationWhite
     },
     viewProduct: {
         rotate360: Icons.solidRotate360,

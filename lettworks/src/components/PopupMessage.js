@@ -15,7 +15,7 @@ export default class PopupMessage extends React.PureComponent {
         this.setState({ rendered: true })
     }
     render() {
-        const { style, message, title, confirm, subtitle, center, leftContent, rightContent, onConfirm, colour, primary } = this.props;
+        const { style, message, title, confirm, subtitle, center, leftContent, rightContent, onConfirm, colour, primary, onReject, reject } = this.props;
         return (
             <View style={styles.modal}>
                 <SafeAreaView style={styles.container}>
@@ -34,9 +34,14 @@ export default class PopupMessage extends React.PureComponent {
                                       </View>
                                       {rightContent || null}
                                   </View>
-                                  <BlankButton style={styles.confirm} onPress={onConfirm}>
-                                    <Text bold type='w'>{confirm}</Text>
-                                  </BlankButton>
+                                  <View style={styles.buttonContainer}>
+                                    <BlankButton style={styles.reject} onPress={onReject}>
+                                      <Text bold type='w'>{reject}</Text>
+                                    </BlankButton>
+                                    <BlankButton style={[styles.confirm, {backgroundColor: '#111', borderColor: '#111'}]} onPress={onConfirm}>
+                                      <Text bold type='w'>{confirm}</Text>
+                                    </BlankButton>
+                                  </View>
                               </View>
                               <View style={[styles.triangle, center ? styles.center : null, {borderBottomColor: primary ? '#4BD4B0' : "#C0392B"}]} />
                           </Fragment>
@@ -46,6 +51,15 @@ export default class PopupMessage extends React.PureComponent {
             </View>
         )
     }
+}
+
+const buttonStyles = {
+  paddingTop: 10, 
+  borderWidth: 1, 
+  borderColor: '#eee', 
+  borderRadius: 7, 
+  margin: 15, 
+  paddingHorizontal: 10
 }
 
 const styles = StyleSheet.create({
@@ -79,14 +93,14 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     confirm: {
-        paddingHorizontal: 10,
-        alignSelf: 'flex-end',
-        paddingTop: 10, 
-        borderWidth: 1, 
-        borderColor: '#eee', 
-        borderRadius: 7, 
-        margin: 15
+      ...buttonStyles,
+      alignSelf: 'flex-end',
+        
     },
+    reject: {
+      ...buttonStyles,
+      alignSelf: 'flex-start',
+  },
     message: {
         marginHorizontal: 20,
         borderRadius: 10,
@@ -120,5 +134,10 @@ const styles = StyleSheet.create({
     },
     center: {
         right: Layout.window.width / 2 - 10
+    }, 
+    buttonContainer: {
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      justifyContent: 'space-evenly'
     }
 })

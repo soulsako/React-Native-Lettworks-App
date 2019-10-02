@@ -14,7 +14,7 @@ class PersonaliseScreen extends React.PureComponent {
     }
    
     onNext = () => {
-        this.props.navigation.navigate('Property');
+        this.props.navigation.navigate('Location');
     }
 
     render() {
