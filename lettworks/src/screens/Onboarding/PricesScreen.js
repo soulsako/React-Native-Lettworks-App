@@ -17,7 +17,7 @@ class PricesScreen extends Component {
     this.state = {
       selectedMinPrice: "No min",
       selectedMaxPrice: "No max",
-      selectedRadius: "This area only",
+      selectedRadius: 1,
       selectedType: props.preferences.type || 'rent',
       sale: {
         minPrice: minSalePrice,
@@ -27,7 +27,7 @@ class PricesScreen extends Component {
         minPrice: minRentPrice, 
         maxPrice: maxRentPrice
       }, 
-      searchRadius: [ "This area only", 1, 3, 5, 10, 15, 20, 30, 40]
+      searchRadius: [1, 3, 5, 10, 15, 20, 30, 40]
     }
   }
   
@@ -57,13 +57,12 @@ class PricesScreen extends Component {
 
   let { selectedMinPrice, selectedMaxPrice, selectedRadius, selectedType } = this.state;
 
-  if(typeof(selectedMinPrice) === typeof(String())) selectedMinPrice = selectedMinPrice.replace(/K/, "000");
-  if(typeof(selectedMaxPrice) === typeof(String())) selectedMaxPrice = selectedMaxPrice.replace(/K/, "000");
+  if(typeof(selectedMinPrice) === typeof(String())) selectedMinPrice = Number(selectedMinPrice.replace(/K/, "000"));
+  if(typeof(selectedMaxPrice) === typeof(String())) selectedMaxPrice = Number(selectedMaxPrice.replace(/K/, "000"));
   if(selectedType === 'rent' && selectedMinPrice === 'No min') selectedMinPrice = 100;
   if(selectedType === 'rent' && selectedMaxPrice === 'No max') selectedMaxPrice = 10000;
   if(selectedType === 'sale' && selectedMinPrice === 'No min') selectedMinPrice = 10000;
   if(selectedType === 'sale' && selectedMinPrice === 'No max') selectedMaxPrice = 1000000;
-  if(selectedRadius === "This area only") selectedRadius = 10;
 
     try {
       await this.props.updateUser({

@@ -328,7 +328,7 @@ export function calculateLengths(aspectRatio) {
 
 export function formatNumbers(nStr){
   nStr += '';
-  var x = nStr.split('.');
+  const x = nStr.split('.');
   var x1 = x[0];
   var x2 = x.length > 1 ? '.' + x[1] : '';
   var rgx = /(\d+)(\d{3})/;
@@ -336,4 +336,31 @@ export function formatNumbers(nStr){
           x1 = x1.replace(rgx, '$1' + ',' + '$2');
   }
   return x1 + x2;
+}
+
+export function isEquivalent(a, b) {
+
+  const equivKeys = [];
+  // Create arrays of property names
+  const aKeys = Object.getOwnPropertyNames(a);
+  const bKeys = Object.getOwnPropertyNames(b);
+
+  // If number of properties is different,
+  // objects are not equivalent
+  if (aKeys.length != bKeys.length) {
+      return false;
+  }
+
+  for (let i = 0; i < aKeys.length; i++) {
+      const currentKey = aKeys[i];
+
+      // If values of same property are not equal,
+      // objects are not equivalent
+      if (a[currentKey] !== b[currentKey]) {
+        equivKeys.push(currentKey);
+      }
+  }
+  // If equiv key is empty objects are equivalent
+  return equivKeys;
+  
 }

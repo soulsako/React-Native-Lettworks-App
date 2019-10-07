@@ -141,6 +141,11 @@ export default {
   outlineHeartWhite: require('../assets/icons/outline/heart/white.png'),
   outlineHeartGreen: require('../assets/icons/outline/heart/green.png'),
 
+  //city 
+  outlineCityGreen: require('../assets/icons/outline/city/green.png'),
+
+  //distance
+  outlineDistanceGreen: require('../assets/icons/outline/distance/green.png'),
   // Heart Sad
   outlineHeartSadGrey: require('../assets/icons/outline/heart-sad/lightGrey.png'),
 

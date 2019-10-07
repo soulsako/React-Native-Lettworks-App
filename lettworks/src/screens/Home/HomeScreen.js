@@ -16,6 +16,10 @@ import Loader from 'components/Loader';
 import Filters from 'components/Filters';
 import * as Permissions from 'expo-permissions';
 import { googleInput } from 'services/globalStyles';
+import { isEquivalent } from 'config/functions';
+import { defaultRent, defaultSale } from 'data';
+import QuickBadge from 'components/QuickBadge';
+import Constants from 'config/constants';
 
 class HomeScreen extends React.PureComponent {
 
@@ -26,23 +30,43 @@ class HomeScreen extends React.PureComponent {
   };
 
   constructor(props){
+ 
+    const { preferences } = props;
+    const { minBedroom, maxBedroom, minPrice, maxPrice, type } = preferences;
+    //Checks if preferences selected or not during onboarding
+    //Total filters will be empty array if no filters were selected on route to homescreen 
+    //or it will contain key names of filters selected on route to homescreen
+    const totalFilters = isEquivalent(defaultRent, preferences);
+    const rentFilters = type === 'rent' ? preferences : defaultRent;
+    const saleFilters = type === 'sale' ? preferences : defaultSale;
+
+    const query = `?bedrooms[gte]=${minBedroom}&bedrooms[lte]=${maxBedroom}&price[gte]=${minPrice}&price[lte]=${maxPrice}`;
+    
     super(props);
     this.state = {
       loading: true, 
-      distance:  props.preferences.searchRadius, 
       pickerItems: distanceItems,
       currAddress: "", 
-      latitude: '',
-      longitude: '',
-      filters: props.preferences,
+      latitude: null,
+      longitude: null,
+      filters: {
+        rent: rentFilters,
+        sale: saleFilters
+      },
+      quickFilters: null,
+      selectedQuickFilters: [],
+      type,
       properties: null, 
       showFilters: false,
-      totalFilters: [],
+      totalFilters,
+      totalProperties: 0,
+      query,
+      sortQuery:'price',
       sortItems: [
-        { label: 'Recommended', value: 'recommended' },
-        { label: 'Price - High to low', value: '-sellingprice' },
-        { label: 'Price - Low to high', value: 'sellingprice' },
-        { label: 'Latest', value: 'date' },
+        // { label: 'Recommended', value: 'recommended' },
+        { label: 'Price - High to low', value: '-price' },
+        { label: 'Price - Low to high', value: 'price' },
+        // { label: 'Latest', value: 'date' },
       ]
     }
   }
@@ -65,9 +89,9 @@ class HomeScreen extends React.PureComponent {
       lng: longitude
     });
     const currAddress = response.results[0].formatted_address;
-    this.setState({ currAddress, latitude, longitude }, () => this.makeRequestToGetProperties(this.state.latitude, this.state.longitude));
+    this.setState({ currAddress, latitude, longitude }, 
+      () => this.makeRequestToGetProperties());
   }
-
 
   checkLocationAsync = async () => {
 
@@ -79,12 +103,85 @@ class HomeScreen extends React.PureComponent {
     return currLocation;
   }
 
-  makeRequestToGetProperties = async (lat, lng, distance = this.props.preferences.searchRadius, query = '') => {
-  
-    let endpoint = `top-properties${query}`;
+  makeRequestToGetProperties = async (lat = this.state.latitude, lng = this.state.longitude, query = this.state.query, sort = this.state.sortQuery) => {
+    
+    const { filters, type } = this.state;
+    let endpoint = `top-properties${query}`, quickFilters;
     if(lat && lng){
-      endpoint = `within/${distance}/center/${lat},${lng}/unit/mil${query}`;
+      endpoint = `type/${type}/within/${filters[type].searchRadius}/center/${lat},${lng}/unit/mil${query}&sort=${sort}`;
+      try {
+        quickFilters = await Api.rapidApi(lat, lng);
+      }catch(error){
+        console.log(error);
+      }
     }
+    console.log('====================================');
+    console.log("ENDPOINT", endpoint);
+    console.log('====================================');
+    
+    const response = await Api.http({
+      method: 'GET',
+      type: 'properties',
+      endpoint
+    });
+    this.setState({loading: false, properties: response.documents, totalProperties: response.results, quickFilters});
+  }
+
+  onUpdate = (filters, totalFilters, latitude = this.state.latitude, longitude = this.state.longitude, currAddress = this.state.currAddress) => {
+    console.log('====================================');
+    console.log("FILTERS FROM onUpdate", filters);
+    console.log('====================================');
+    //We have access to filters 
+    //We need to build a query string and fetch properties
+    const { maxBedroom, maxPrice, minBedroom, minPrice, type } = filters;
+    // const { latitude, longitude } = this.state;
+    const query = `?bedrooms[gte]=${minBedroom}&bedrooms[lte]=${maxBedroom}&price[gte]=${minPrice}&price[lte]=${maxPrice}`;
+    const newFilters = {...this.state.filters};
+    newFilters[type] = filters;
+    this.setState({loading: true, filters: newFilters, totalFilters, latitude, longitude, query, currAddress, type}, this.makeRequestToGetProperties);
+    
+  }
+
+  onDistancePickerHandler = (distance, index) => {
+    //Here we have access to the selected radius in miles
+    const filters = {...this.state.filters};
+    const { type } = this.state;
+    filters[type].searchRadius = distance;
+    this.setState({loading: true, filters}, 
+      () => this.makeRequestToGetProperties());
+  }
+
+  onLocationSelectedHandler = async (data, details= null) => { 
+    this.setState({loading: true});
+  // 'details' is provided when fetchDetails = true
+    const currAddress = data.description;
+    const searchCoords = await Api.google(data.place_id);
+    const { lat, lng } = searchCoords.result.geometry.location;
+    // Make request to backend to fetch properties
+    this.setState({latitude: lat, longitude: lng, currAddress}, this.makeRequestToGetProperties);
+  }
+
+  renderProperties = () => {
+    const { type } = this.state;
+    return this.state.properties.map(property => (
+      <Fragment key={property._id}>
+        <PropertyCard {...property} type={type}/>
+        <View style={styles.seperator} />
+      </Fragment>
+    ));
+  }
+
+  onQuickFilterSelected = (city) => {
+    const { selectedQuickFilters } = this.state;
+    const index = selectedQuickFilters.indexOf(city);
+    if(index === -1) selectedQuickFilters.push(city);
+    else selectedQuickFilters.splice(index, 1);
+    this.setState({loading: true, selectedQuickFilters}, () => this.fetchCityProperties(selectedQuickFilters));
+  }
+
+  fetchCityProperties = async (selectedQuickFilters) => {
+    if(selectedQuickFilters.length === 0) return this.makeRequestToGetProperties();
+    const endpoint = `propertiesbytown/${selectedQuickFilters.join().split(',').join('/')}`;
     const response = await Api.http({
       method: 'GET',
       type: 'properties',
@@ -92,71 +189,27 @@ class HomeScreen extends React.PureComponent {
     });
     this.setState({loading: false, properties: response.documents, totalProperties: response.results});
   }
-
-  onUpdate = (filters, totalFilters, latitude, longitude) => {
-    //We have access to filters 
-    //We need to build a query string and fetch properties
-    const { maxBedroom, maxPrice, minBedroom, minPrice, searchRadius, type } = filters;
-    // const { latitude, longitude } = this.state;
-    const queryStr = `?bedrooms[gte]=${minBedroom}&bedrooms[lte]=${maxBedroom}&rent[gte]=${minPrice}&rent[lte]=${maxPrice}`;
-    this.setState({loading: true, filters, totalFilters, distance: filters.searchRadius});
-    this.makeRequestToGetProperties(latitude, longitude, searchRadius, queryStr);
-    
-  }
-
-  onDistancePickerHandler = (distance, index) => {
-    //Here we have access to the selected radius in miles
-    this.setState({ distance, loading: true, filters: {...this.state.filters, searchRadius: distance}}, 
-      () => this.makeRequestToGetProperties(this.state.latitude, this.state.longitude, this.state.distance));
-  }
-
-  onLocationSelectedHandler = async (data, details= null) => { 
-    this.setState({loading: true})
-  // 'details' is provided when fetchDetails = true
-    const searchCoords = await Api.google(data.place_id);
-    const { lat, lng } = searchCoords.result.geometry.location;
-    // Make request to backend to fetch properties
-    this.makeRequestToGetProperties(lat, lng);
-    this.setState({latitude: lat, longitude: lng});
-  }
-
-  renderProperties = () => {
-    return this.state.properties.map(property => (
-      <Fragment key={property._id}>
-        <PropertyCard {...property} />
-        <View style={styles.seperator} />
-      </Fragment>
-    ));
-  }
-
-  renderPickerIcon = () => <Icon.Ionicons name="md-arrow-down" size={22} color='#959595' />
+  // renderPickerIcon = () => <Icon.Ionicons name="md-arrow-down" size={22} color='#959595' />
   //Use rapid Api to fetch towns close by and render on top of screen for quick filters 
 
-  quickFilters = () => {
-
+  renderQuickFilters = () => {
+    return this.state.quickFilters.map((el,i) => <QuickBadge key={i} {...el} onPress={() => this.onQuickFilterSelected(el.City)} curved/>)
   }
-
+    
   onCloseFilters = () => this.setState({ showFilters: false });
-
-  // Sort properties 
-  onSortSelect = () => {
-
-  }
-
-  onOpenFilters = () => {
-    this.setState({showFilters: true})
-  }
-
+  onSortSelect = (value) => this.setState({sortQuery: value}, this.makeRequestToGetProperties);
+  onOpenFilters = () => this.setState({showFilters: true});
+  
   render(){
-    const { distance, pickerItems, currAddress, loading, properties, filters, showFilters, sortItems, totalFilters, totalProperties, latitude, longitude } = this.state;
-    const placeholder = { label: 'Search radius', value: null, color: '#9EA0A4'};
+    const { pickerItems, currAddress, loading, properties, filters, showFilters, sortItems, totalFilters, totalProperties, latitude, longitude, type, quickFilters } = this.state;
+    const placeholder = { label: 'miles', value: 1, color: '#9EA0A4'};
+    
     return (
       <SafeAreaView style={styles.container}>
-
         <View style={styles.searchContainer}>
 
           <GooglePlacesAutocomplete
-            placeholder={currAddress.substring(0, 20)}
+            placeholder={Constants.isSmallDevice ? currAddress.substring(1, 20) : currAddress.substring(1, 50)}
             minLength={2} // minimum length of text to search
             autoFocus={false}
             returnKeyType={'search'} 
@@ -164,7 +217,7 @@ class HomeScreen extends React.PureComponent {
             listViewDisplayed={false} // true/false/undefined
             fetchDetails={false}
             onPress={this.onLocationSelectedHandler}
-            getDefaultValue={() => this.state.currAddress}
+            getDefaultValue={() => ""}
             query={{key: expo.googleMaps.APIKey,language: 'en', components: 'country:gb'}}
             styles={{...googleInput, textInputContainer: {marginTop: 10, justifyContent: 'center', backgroundColor: '#4bd4b0', borderRadius: Platform.OS === 'ios' ? 4 : 8}}}
             currentLocation={true} 
@@ -180,10 +233,10 @@ class HomeScreen extends React.PureComponent {
               items={pickerItems}
               onValueChange={this.onDistancePickerHandler}
               style={{ ...pickerSelectStyles, iconContainer: { top: 12, right: 12 }}}
-              value={distance}
+              value={filters[type].searchRadius || 1}
               useNativeAndroidPickerStyle={false}
               textInputProps={{ underlineColor: 'yellow' }}
-              Icon={this.renderPickerIcon}
+              // Icon={this.renderPickerIcon}
             />
           </View>
 
@@ -202,7 +255,10 @@ class HomeScreen extends React.PureComponent {
                 Sort
               </Text>
             </View>
-          </Picker>         
+          </Picker>
+          <View>
+            <Text>Results: ({totalProperties})</Text>
+          </View>         
           <BlankButton style={styles.filter} onPress={this.onOpenFilters}>
               <View style={styles.numFilters}>
                 <Text small type="w">
@@ -215,6 +271,12 @@ class HomeScreen extends React.PureComponent {
             <Icon.Ionicons name="ios-arrow-down" size={19} color="#999ca4" />
           </BlankButton>
         </View>
+        {
+        !quickFilters ?  null : 
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={styles.quickfilters}>
+          {this.renderQuickFilters()}
+        </ScrollView>
+        }
         {
         !loading && properties && properties.length === 0 ? 
         <View style={styles.noSearchResults}>
@@ -246,6 +308,7 @@ class HomeScreen extends React.PureComponent {
             onLocationSelect={this.onLocationSelectedHandler}
             latitude={latitude}
             longitude={longitude}
+            type={type}
           />
         </Modal>
         ) : null}
@@ -267,7 +330,7 @@ export default connect(mapStateToProps)(HomeScreen);
 const styles = StyleSheet.create({
 
   container: { // section instead of container maybe
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#f7f7f7',
     paddingTop: 10,
     paddingHorizontal: 10
@@ -276,6 +339,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  quickfilters: {
+    flexDirection: 'row', 
+    alignItems: 'center',  
+    marginBottom: 10, 
+    paddingVertical: 5
   },
   pickerContainer:  {
     justifyContent: 'center', 

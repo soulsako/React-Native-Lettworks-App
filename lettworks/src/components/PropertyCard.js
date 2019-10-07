@@ -2,19 +2,21 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Text, Button } from 'atoms';
 import { IconsPDP, IconsProperty, IconsLaunch, IconsTaggstar, IconsGlobal } from 'config/AppIcons/AppIcons';
+import { formatNumbers } from 'config/functions';
 
 export default class PropertyCard extends React.PureComponent {
 
   render(){
-    const { rent, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address, distance } = this.props;
+    const { price, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address, distance, type } = this.props;
+    const afterPrice = type === 'rent' ? 'pcm' : ""
     return (
       <View style={styles.card}>
           <View style={styles.top}>  
-            <Image source={require('./../assets/images/properties/tour-5d83d0aeecba25230421d7b6-1569198984579-cover.jpeg')} style={styles.image}/>
+            <Image source={{uri: imageCover}} style={styles.image}/>
 
             <View style={styles.priceContainer}>
               <Image source={IconsPDP.price.priceTagGreen} style={styles.icon}/>
-              <Text mediumWeight style={styles.price}>£{rent} pcm</Text>
+              <Text mediumWeight style={styles.price}>`£{`${formatNumbers(price)} ${afterPrice}`}</Text>
             </View>
           </View>
           

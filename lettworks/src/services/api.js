@@ -2,6 +2,7 @@ import axios from 'axios';
 // import { isDev } from 'config/functions';
 import Constants from "expo-constants";
 import { expo } from '../../app.json';
+import { ActionSheetIOS } from 'react-native';
 
 const { manifest } = Constants;
 const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts.dev
@@ -29,6 +30,24 @@ class API {
       })
       .catch(error => {
         return error.response.data
+      })
+    }
+
+    rapidApi(lat, lng){
+      const url = `https://geocodeapi.p.rapidapi.com/GetNearestCities?latitude=${lat}&longitude=${lng}&range=0`;
+      return axios({
+        url,
+        method: 'GET', 
+        headers: {
+          "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
+		      "x-rapidapi-key": "afaf62ae2bmsh16ac9cf2d2e3e4fp187a2fjsn3bd3e08130d1"
+        }
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return error;
       })
     }
 

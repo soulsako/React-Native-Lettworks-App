@@ -6,7 +6,6 @@ export const rentPrice = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 125
 
 //Distances in miles to fetch properties within miles radius
 export const distanceItems = [
-  { label:"This area only", value: 1 },
   { label:"1 mile", value: 1 },
   { label:"3 miles", value: 3 },
   { label:"5 miles", value: 5 },
@@ -27,3 +26,21 @@ minSalePrice.unshift("No min");
 maxSalePrice.unshift("No max");
 minRentPrice.unshift("No min");
 maxRentPrice.unshift("No max");
+
+export const defaultRent = {
+  maxBedroom: 6,
+  maxPrice: 5000,
+  minBedroom: 1,
+  minPrice: 100,
+  searchRadius: 40,
+  type: "rent",
+}
+
+export const defaultSale = {
+  maxBedroom: 6,
+  maxPrice: 1000000,
+  minBedroom: 1,
+  minPrice: 10000,
+  searchRadius: 40,
+  type: "sale",
+}
