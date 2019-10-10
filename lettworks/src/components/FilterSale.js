@@ -52,6 +52,10 @@ export default class FilterSale extends Component {
     return (
       <View style={styles.slidercontainer}>
         {this.renderFilters()}
+        <View style={styles.buttonscontainer}>
+          <Button medium colour="white" buttonStyle={{borderWidth: 1, borderColor: '#777', marginRight: 15}}>Update preferences</Button>
+          <Button medium colour="white" buttonStyle={{borderWidth: 1, borderColor: '#777'}}>Update Location</Button>
+        </View>
         <View style={styles.actionButton}>
           <Button loading={loading} onPress={this.props.onDone}>View Properties ({totalProperties || 0})</Button>
         </View>
@@ -84,5 +88,11 @@ const styles = StyleSheet.create({
   }, 
   slider: {
     marginBottom: 25
+  }, 
+  buttonscontainer: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: "space-evenly",
+    marginTop: 15
   }
 });

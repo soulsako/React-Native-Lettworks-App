@@ -61,11 +61,11 @@ class HomeScreen extends React.PureComponent {
       totalFilters,
       totalProperties: 0,
       query,
-      sortQuery:'price',
+      sortQuery: 1,
       sortItems: [
         // { label: 'Recommended', value: 'recommended' },
-        { label: 'Price - High to low', value: '-price' },
-        { label: 'Price - Low to high', value: 'price' },
+        { label: 'Price - High to low', value: -1 },
+        { label: 'Price - Low to high', value: 1 },
         // { label: 'Latest', value: 'date' },
       ]
     }
@@ -89,8 +89,7 @@ class HomeScreen extends React.PureComponent {
       lng: longitude
     });
     const currAddress = response.results[0].formatted_address;
-    this.setState({ currAddress, latitude, longitude }, 
-      () => this.makeRequestToGetProperties());
+    this.setState({ currAddress, latitude, longitude },this.makeRequestToGetProperties);
   }
 
   checkLocationAsync = async () => {
@@ -106,7 +105,7 @@ class HomeScreen extends React.PureComponent {
   makeRequestToGetProperties = async (lat = this.state.latitude, lng = this.state.longitude, query = this.state.query, sort = this.state.sortQuery) => {
     
     const { filters, type } = this.state;
-    let endpoint = `top-properties${query}`, quickFilters;
+    let endpoint = `top-properties${query}`;
     if(lat && lng){
       endpoint = `type/${type}/within/${filters[type].searchRadius}/center/${lat},${lng}/unit/mil${query}&sort=${sort}`;
       try {
@@ -147,8 +146,7 @@ class HomeScreen extends React.PureComponent {
     const filters = {...this.state.filters};
     const { type } = this.state;
     filters[type].searchRadius = distance;
-    this.setState({loading: true, filters}, 
-      () => this.makeRequestToGetProperties());
+    this.setState({loading: true, filters},this.makeRequestToGetProperties);
   }
 
   onLocationSelectedHandler = async (data, details= null) => { 
@@ -165,7 +163,7 @@ class HomeScreen extends React.PureComponent {
     const { type } = this.state;
     return this.state.properties.map(property => (
       <Fragment key={property._id}>
-        <PropertyCard {...property} type={type}/>
+        <PropertyCard {...property} type={type} />
         <View style={styles.seperator} />
       </Fragment>
     ));
@@ -353,7 +351,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   scrollContainer: {
-    paddingBottom: 10
+    paddingBottom: 10, 
+    // flex: 1
   },
   filterText: {
     marginHorizontal: 5,

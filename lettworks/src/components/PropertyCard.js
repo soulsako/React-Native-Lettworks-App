@@ -1,22 +1,88 @@
-import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, StyleSheet, Image, Modal, TouchableHighlight } from 'react-native';
 import { Text, Button } from 'atoms';
 import { IconsPDP, IconsProperty, IconsLaunch, IconsTaggstar, IconsGlobal } from 'config/AppIcons/AppIcons';
 import { formatNumbers } from 'config/functions';
+import Constants from 'config/constants';
+import Icons from '../config/Icons';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+
+const sliderWidth = Constants.window.width - 20;
 
 export default class PropertyCard extends React.PureComponent {
 
+  state = {
+    maxImages: this.props.images.slice(0, 4), // Max images set to 4
+    activeSlide: 0 
+  }
+
+  // onImageClicked = () => {
+  //   this.props.navigation.navigate("ProductDescription");
+  // }
+
+  renderItem = ({item, index}) => (
+      <Image 
+        style={{width: sliderWidth, height: 240}}
+        source={{uri: item}} 
+      />
+    );
+
+    renderPaginationDots = () => {
+    const { maxImages, activeSlide } = this.state;
+    return (
+        <Pagination
+          dotsLength={maxImages.length}
+          activeDotIndex={activeSlide}
+          containerStyle={{position: 'absolute', left: '30%', top: 180 }}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 4,
+            backgroundColor: 'rgba(255, 255, 255, .92)'
+          }}
+          inactiveDotStyle={{
+              // Define styles for inactive dots here
+          }}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+    );
+  }
+
   render(){
-    const { price, bathrooms, bedrooms, description, imageCover, images, ratingsAverage, ratingsQuantity, address, distance, type } = this.props;
-    const afterPrice = type === 'rent' ? 'pcm' : ""
+    const { price, bathrooms, bedrooms, description, images, ratingsAverage, ratingsQuantity, address, distance, type } = this.props;
+    const { maxImages } = this.state;
+    const afterPrice = type === 'rent' ? 'pcm' : "";
+    console.log('====================================');
+    console.log(images);
+    console.log('====================================');
     return (
       <View style={styles.card}>
-          <View style={styles.top}>  
-            <Image source={{uri: imageCover}} style={styles.image}/>
-
-            <View style={styles.priceContainer}>
+          <View style={styles.top}>
+            {/* <TouchableHighlight onPress={this.onImageClicked}> */}
+              <Fragment>
+                <Carousel
+                  data={maxImages}
+                  renderItem={this.renderItem}
+                  onSnapToItem={(index) => this.setState({ activeSlide: index }) }
+                  itemWidth={sliderWidth}
+                  sliderWidth={sliderWidth}
+                  itemHeight={240}
+                  inactiveSlideScale={1}
+                />
+                { this.renderPaginationDots() }
+              </Fragment>
+              {/* <Image source={{uri: imageCover}} style={styles.image} /> */}
+            {/* </TouchableHighlight> */}
+            
+          <View style={styles.priceContainer}>
               <Image source={IconsPDP.price.priceTagGreen} style={styles.icon}/>
-              <Text mediumWeight style={styles.price}>`£{`${formatNumbers(price)} ${afterPrice}`}</Text>
+              <Text mediumWeight style={styles.price}>£{`${formatNumbers(price)} ${afterPrice}`}</Text>
+            </View>
+            <View style={styles.imagecount}>
+              <Image source={IconsPDP.viewProduct.camera} style={{marginRight: 10, width: 15, height: 15}}/>
+              <Text large type="w" style={{alignSelf: 'flex-end',}}>{images.length + 1}</Text>
             </View>
           </View>
           
@@ -40,7 +106,7 @@ export default class PropertyCard extends React.PureComponent {
 
               <View style={styles.infoBox}>
                 <Image source={IconsPDP.tabs.location} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black>{distance} mil</Text>
+                <Text black>{distance.toFixed(1)} mil</Text>
               </View>
 
             </View>
@@ -59,7 +125,7 @@ export default class PropertyCard extends React.PureComponent {
 
               <View style={[styles.infoBox, styles.borderRight]}>
                 <Image source={IconsPDP.tabs.reviewsGreen} style={[styles.icon, {marginBottom: 5}]}/>
-                <Text black>{ratingsAverage}</Text>
+                <Text black>{ratingsAverage} ({ratingsQuantity})</Text>
               </View>
 
             </View>
@@ -94,7 +160,9 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
   }, 
-  top: {},
+  top: {
+    position: 'relative'
+  },
   image: {
     width: '100%', 
     height: 240
@@ -108,7 +176,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     alignItems: 'center', 
     justifyContent:'center'
-  }, 
+  },
+  imagecount: {
+    position: 'absolute', 
+    right: 0, 
+    top: 200,
+    backgroundColor: 'rgba(1, 1, 1, .7)', 
+    paddingHorizontal: 15,
+    paddingVertical: 5, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent:'center'
+  },
   icon: {
     width: 25, 
     height: 25, 
@@ -161,4 +240,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     marginTop: 15
   }
-})
+});
+
+// {
+//   this.state.showCarousel ? <Modal
+//   animationType="slide"
+//   transparent={false}
+//   visible={true}
+//   onRequestClose={this.onCloseCarousel || false}
+//   >
+//   <Carousel 
+//     ref={(c) => { this.carousel = c; }}
+//     data={images}
+//     renderItem={this.renderItem}
+//     sliderWidth={sliderWidth}
+//     itemWidth={sliderWidth} />
+//   </Modal> : null
+//   }

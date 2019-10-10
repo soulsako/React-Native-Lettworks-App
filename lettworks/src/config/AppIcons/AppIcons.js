@@ -57,6 +57,7 @@ export const IconsPDP = {
         rotate360: Icons.solidRotate360,
         video: Icons.outlineVideoCameraGrey,
         clothes: Icons.outlineClothesGrey,
+        camera: Icons.outlineCameraWhite
     },
     price: {
       priceTag: Icons.outlineTagBlack,
