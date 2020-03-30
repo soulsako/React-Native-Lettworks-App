@@ -19,8 +19,18 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+<<<<<<< Updated upstream
     "googleMaps": {
       "APIKey": "AIzaSyBbka6uHiBr9pLlE_QVfwUuChwwOmeDE68"
+=======
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD_2spFZGuRxNjnmyAro8VfaRXfyHiLVRg"
+          
+        }
+      }
+>>>>>>> Stashed changes
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -29,7 +39,22 @@
       "**/*"
     ],
     "ios": {
+<<<<<<< Updated upstream
       "supportsTablet": true
+=======
+      "supportsTablet": true, 
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.1080961317505-5ttgop5pk3ecm101rjufk1jcc0tibg4m"
+        }
+      }
+    }, 
+    "extra": {
+      "facebookAppId": "525762498374572", 
+      "IOS_CLIENT_ID": "1080961317505-5ttgop5pk3ecm101rjufk1jcc0tibg4m.apps.googleusercontent.com", 
+      "ANDROID_CLIENT_ID": "1080961317505-5joha6061cf8r710onfn3uadb5qdf3b3.apps.googleusercontent.com"
+>>>>>>> Stashed changes
     }
   }
 }
+

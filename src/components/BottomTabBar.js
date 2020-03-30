@@ -21,6 +21,25 @@ export default class TabBar extends React.Component {
             oldHideTabBar = oldParams.hideTabBar;
         }
 
+<<<<<<< Updated upstream
+=======
+      state = {
+        offset: new Animated.Value(0),
+        position: 'relative'
+     };
+
+    componentWillReceiveProps(props) {
+        let oldHideTabBar = false;
+        let newHideTabBar = false;
+        const oldState = this.props.navigation.state;
+        const oldRoute = oldState.routes[oldState.index];
+        const oldParams = oldRoute.routes[oldRoute.index].params;
+
+        if (oldParams && oldParams.hasOwnProperty('hideTabBar')) {
+            oldHideTabBar = oldParams.hideTabBar;
+        }
+
+>>>>>>> Stashed changes
         const newState = props.navigation.state;
         const newRoute = newState.routes[newState.index];
         const newParams = newRoute.routes[newRoute.index].params;
@@ -40,6 +59,10 @@ export default class TabBar extends React.Component {
         }
     }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     onLayout(event) {
         if (event.nativeEvent.layout.height > tabBarOffset) {
             tabBarOffset = event.nativeEvent.layout.height;

@@ -32,6 +32,39 @@ export function login(email, password) {
     };
 }
 
+export function socialLogin(details) {
+    return async dispatch => {
+        dispatch({
+            type: Types.AUTHENTICATING,
+        });
+        try {
+            const { token, user, status, newUser } = await api.socialLogin(details);
+            // const response = await api.login({ email, password });
+            dispatch({
+                type: Types.LOGIN,
+                payload: {
+                  loginType: 'login',
+                  user,
+                  status, 
+                  token, 
+                  newUser
+                }
+            });
+        } catch (error) {
+            if (error.statusCode === 401) {
+                dispatch({
+                    type: Types.UNAUTHORISED
+                });
+            } else {
+                console.log('LOGIN ERROR', error);
+                dispatch({
+                    type: Types.LOGIN_ERROR
+                });
+            }
+        }
+    };
+}
+
 export function unauthorised() {
     return {
         type: Types.UNAUTHORISED,

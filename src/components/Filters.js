@@ -175,7 +175,7 @@ export default class FiltersScreen extends React.PureComponent {
             // renderDescription={row =>
             //   row.description || row.formatted_address || row.name
             // }
-            query={{key: expo.googleMaps.APIKey,language: 'en', components: 'country:gb'}}
+            query={{key: expo.android.config.googleMaps.apiKey,language: 'en', components: 'country:gb'}}
             styles={{...googleInput, textInputContainer: {marginTop: 10, justifyContent: 'center', backgroundColor: '#4bd4b0', borderRadius: Platform.OS === 'ios' ? 4 : 8}}}
             currentLocation={true} 
             currentLocationLabel="Use current location"

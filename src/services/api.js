@@ -4,12 +4,17 @@ import Constants from "expo-constants";
 import { expo } from '../../app.json';
 import { ActionSheetIOS } from 'react-native';
 
+const facebookGraphApiUrl = (token) => `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email`;
+
+
 const { manifest } = Constants;
 const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts.dev
   ? `http://${manifest.debuggerHost.split(`:`).shift().concat(`:8000`)}/api/v1`
   : `api.example.com`;
 
 // function getApiUrl() {
+
+
 //     return isDev() ? config.dev : config.prod;
 // }
 
@@ -17,6 +22,7 @@ const api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts
 
 class API {
 
+<<<<<<< Updated upstream
     google(data){
       let url;
       if(typeof(data) === typeof(String())){
@@ -25,6 +31,33 @@ class API {
         url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}&key=${expo.googleMaps.APIKey}`
       }
       return axios.get(url)
+=======
+  facebookGraphApi(token){
+    const url = facebookGraphApiUrl(token);
+    return axios.get(url)
+    .then(response => {
+      // console.log("FACEBOOK RESPONSE: ", response.data);
+      return response.data;
+    })
+    .catch(({message}) => {
+      // console.log("ERROR MESSAGE FROM FACEBOOK", message);
+      return {
+        message, 
+        error: true
+      }
+    });
+  }
+
+  google(data) {
+    let url;
+    if (typeof data === typeof String()) {
+      url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${data}&key=${expo.android.config.googleMaps.apiKey}`;
+    } else {
+      url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}&key=${expo.android.config.googleMaps.apiKey}`;
+    }
+    return axios
+      .get(url)
+>>>>>>> Stashed changes
       .then(response => {
         return response.data
       })
@@ -100,6 +133,7 @@ class API {
         });
     }
 
+<<<<<<< Updated upstream
     login(data) {
         this.token = null;
         this.loggedIn = false;
@@ -113,6 +147,53 @@ class API {
             if (error.response && error.response.status === 401) throw error.response;
             throw this.getError(error);
         });
+=======
+  socialLogin(data){
+    this.token = null;
+    this.logeedIn = false;
+    return axios({
+      method: 'post', 
+      url: `${api}/users/sociallogin`, 
+      data
+    })
+    .then(response => {
+      console.log("Social Login response from backend", response.data);
+      return response.data;
+    })
+    .catch(error => {
+      console.log("Social login error response from backend", error.response.data);
+      return error.response.data;
+    });
+  }
+
+  login(data) {
+    this.token = null;
+    this.loggedIn = false;
+    return axios({
+      method: "post",
+      url: `${api}/users/login`,
+      data: data
+    })
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 401)
+          throw error.response;
+        throw this.getError(error);
+      });
+  }
+  http(details) {
+    const config = {
+      method: details.method,
+      url: `${api}/${details.type}/${details.endpoint}`,
+      data: details.data
+    };
+    // console.log("config", config);
+    if (details.token) {
+      if (!config.headers) config.headers = {};
+      config.headers["authorization"] = `Bearer ${details.token}`;
+>>>>>>> Stashed changes
     }
     http(details) { 
 

@@ -43,6 +43,14 @@ export default {
   solidTickWhite: require('../assets/icons/solid/tick/white.png'),
   solidTickGreen: require('../assets/icons/solid/tick/green.png'),
 
+<<<<<<< Updated upstream
+=======
+  //Socials
+  solidFacebookRound: require('../assets/icons/solid/facebook/facebook-round.png'),
+  solidFacebookLetter: require('../assets/icons/solid/facebook/facebook-letter.png'),
+  solidGoogleLetter: require('../assets/icons/solid/google/google-letter.png'),
+
+>>>>>>> Stashed changes
   // #Config: OUTLINE ICONS
   //===========================================================================
 

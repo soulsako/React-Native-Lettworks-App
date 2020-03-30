@@ -25,6 +25,10 @@ class PropertyTypeScreen extends React.PureComponent {
         }
       }
 
+      componentDidMount(){
+        console.log("USER from propertytype screen", this.props.user);
+      }
+
     onNext = (selectedType) => {
         if(!selectedType) return;
         this.props.navigation.navigate('Prices');
@@ -67,8 +71,8 @@ class PropertyTypeScreen extends React.PureComponent {
           await this.props.updateUser({
             preferences: {
               type: selectedType || 'rent',
-              minBedroom: selectedMinBedroom,
-              maxBedroom: selectedMaxBedroom
+              minBedroom: selectedMinBedroom || 1,
+              maxBedroom: selectedMaxBedroom || 6
             }
           });
         }
@@ -112,7 +116,13 @@ class PropertyTypeScreen extends React.PureComponent {
     }
 }
 
-export default connect(null, { updateUser })(PropertyTypeScreen);
+function mapStateToprops(state){
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToprops, { updateUser })(PropertyTypeScreen);
 
 const styles = StyleSheet.create({
     

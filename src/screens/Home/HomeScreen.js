@@ -30,15 +30,20 @@ class HomeScreen extends React.PureComponent {
   };
 
   constructor(props){
- 
+    
     const { preferences } = props;
+    console.log('====================================');
+    console.log("PREFERENCES: ", props.preferences);
+    console.log('====================================');
+
     const { minBedroom, maxBedroom, minPrice, maxPrice, type } = preferences;
+    
     //Checks if preferences selected or not during onboarding
     //Total filters will be empty array if no filters were selected on route to homescreen 
     //or it will contain key names of filters selected on route to homescreen
     const totalFilters = isEquivalent(defaultRent, preferences);
-    const rentFilters = type === 'rent' ? preferences : defaultRent;
-    const saleFilters = type === 'sale' ? preferences : defaultSale;
+    const rentFilters = type && type === 'rent' ? preferences : defaultRent;
+    const saleFilters = type && type === 'sale' ? preferences : defaultSale;
 
     const query = `?bedrooms[gte]=${minBedroom}&bedrooms[lte]=${maxBedroom}&price[gte]=${minPrice}&price[lte]=${maxPrice}`;
     
@@ -72,9 +77,6 @@ class HomeScreen extends React.PureComponent {
   }
 
   componentDidMount(){
-    console.log('====================================');
-    console.log("PREFERENCES: ", this.props.preferences);
-    console.log('====================================');
     this.getCurrentLocation();
   }
 
@@ -216,7 +218,7 @@ class HomeScreen extends React.PureComponent {
             fetchDetails={false}
             onPress={this.onLocationSelectedHandler}
             getDefaultValue={() => ""}
-            query={{key: expo.googleMaps.APIKey,language: 'en', components: 'country:gb'}}
+            query={{key: expo.android.config.googleMaps.apiKey,language: 'en', components: 'country:gb'}}
             styles={{...googleInput, textInputContainer: {marginTop: 10, justifyContent: 'center', backgroundColor: '#4bd4b0', borderRadius: Platform.OS === 'ios' ? 4 : 8}}}
             currentLocation={true} 
             currentLocationLabel="Use current location"

@@ -8,6 +8,7 @@ import Heading from './components/Heading';
 import Slider from 'components/Slider';
 import BottomBar from './components/BottomBar';
 import Container from './components/Container';
+import { createIconSetFromFontello } from '@expo/vector-icons';
 
 class PricesScreen extends Component {
 
@@ -29,6 +30,10 @@ class PricesScreen extends Component {
       }, 
       searchRadius: [1, 3, 5, 10, 15, 20, 30, 40]
     }
+  }
+
+  componentDidMount(){
+    console.log("PREFERENCES from price screen", this.props.preferences);
   }
   
   onSelect = (value, type) => {
@@ -67,9 +72,9 @@ class PricesScreen extends Component {
     try {
       await this.props.updateUser({
         preferences: {
-          minPrice:  selectedMinPrice,
-          maxPrice: selectedMaxPrice, 
-          searchRadius: selectedRadius 
+          minPrice:  selectedMinPrice || 100,
+          maxPrice: selectedMaxPrice || 5000, 
+          searchRadius: selectedRadius || 40 
         }
       });
     }

@@ -23,7 +23,7 @@ export default class PropertyCard extends React.PureComponent {
   renderItem = ({item, index}) => (
       <Image 
         style={{width: sliderWidth, height: 240}}
-        source={{uri: item}} 
+        source={{uri: item.image}} 
       />
     );
 

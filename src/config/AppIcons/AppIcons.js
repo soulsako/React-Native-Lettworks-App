@@ -176,6 +176,12 @@ export const IconsBottomNav = {
 
 export const socialIcons = {
     instagram: Icons.outlineSocialBrandInstagramBlack,
+<<<<<<< Updated upstream
+=======
+    facebookRound: Icons.solidFacebookRound, 
+    facebookLetter: Icons.solidFacebookLetter, 
+    googleLetter: Icons.solidGoogleLetter
+>>>>>>> Stashed changes
 }
 
 // tessuti: require('./../../assets/images/soldBy/TESSUTI.jpg'),

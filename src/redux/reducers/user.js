@@ -3,7 +3,7 @@ import * as Types from 'redux/actions/types';
 export default function (state = null, action) {
     switch (action.type) {
         case Types.LOGIN:
-            return { ...action.payload.user, status: {} }
+            return { ...action.payload.user, newUser: action.payload.newUser, status: action.payload.status }
         case Types.FETCH_USER:
             return { ...action.payload.user, status: { loaded: true } }
         case Types.CREATING_USER_ADDRESS:

@@ -5,19 +5,33 @@ import { StyleSheet, View, Image, ImageBackground, SafeAreaView } from 'react-na
 import { Button, BlankButton, Text } from 'atoms';
 
 import Layout from 'config/constants';
-import { login, clear } from 'redux/actions/auth';
+import { socialLogin, clear } from 'redux/actions/auth';
 import { Video } from 'expo-av';
 import { Videos } from 'config/AppVideos';
 import { Notification, Loader } from 'components';
 import { ImagesIntro } from 'config/AppIntro';
 import { ImagesLogos } from 'config/AppIcons/AppLogos';
+<<<<<<< Updated upstream
+=======
+import { socialIcons } from 'config/AppIcons/AppIcons';
+import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-google-app-auth';
+import { expo } from '../../../app.json';
+import Api from 'services/api';
+import { FBLoginErrorMessage, googleLoginErrorMessage, defaultErrorMessage } from 'config/errorMessages';
+>>>>>>> Stashed changes
 
 class StartPage extends React.PureComponent {
     state = {
         play: true,
-        loaded: false,
+				loaded: false, 
+				socialLoginError: null
     };
     componentDidMount() {
+<<<<<<< Updated upstream
+=======
+				console.log("Props from start page", this.props);
+>>>>>>> Stashed changes
         this.blurListener = this.props.navigation.addListener('didBlur', () => {
             this.setState({ play: false });
         });
@@ -28,13 +42,21 @@ class StartPage extends React.PureComponent {
     componentWillUnmount() {
         this.focusListener.remove();
         this.blurListener.remove();
-    }
-    // componentDidUpdate(prevProps) {
-    //     const { authenticated, customer } = this.props;
-    //     if (authenticated && !prevProps.authenticated && customer && customer.isGuest) {
-    //         this.props.navigation.navigate('Home');
-    //     }
-    // }
+		}
+		
+		componentDidUpdate(prevProps) {
+			if (this.props.authenticated && !prevProps.authenticated) {
+					this.onAppLogin();
+			}
+		}
+
+		onAppLogin() {
+				const { navigation, newUser, status } = this.props;
+				if(status === "fail") return this.setState({socialLoginError: defaultErrorMessage});
+				else if(status === "success" && newUser) return navigation.navigate('Onboarding');
+				navigation.navigate('Main');
+		}
+    
     onRegister = () => {
         this.props.navigation.navigate('Register');
     };
@@ -62,10 +84,60 @@ class StartPage extends React.PureComponent {
                 style={styles.fullScreen}
                 source={Videos.startSmaller2}
             />
+<<<<<<< Updated upstream
         );
     }
+=======
+				);
+		}
+
+		facebookLoginHandler = async () => {
+			try {
+				await Facebook.initializeAsync(expo.extra.facebookAppId);
+				const {
+					type,
+					token,
+					expires,
+					permissions,
+					declinedPermissions,
+				} = await Facebook.logInWithReadPermissionsAsync({
+					permissions: ['public_profile', 'email'],
+				});
+				if (type === 'success') {
+					// Get the user's name using Facebook's Graph API
+					const userFBDetails = await Api.facebookGraphApi(token);
+					userFBDetails.error ? this.setState({socialLoginError: FBLoginErrorMessage}) : this.props.socialLogin(userFBDetails);
+
+				} else {
+					// type === 'cancel'
+				}
+			} catch ({ message }) {
+				this.setState({socialLoginError: FBLoginErrorMessage});
+			}
+		}
+
+		googleLoginHandler = async () => {
+
+			try {
+				const result = await Google.logInAsync({
+					iosClientId: expo.extra.IOS_CLIENT_ID, 
+					androidClientId: expo.extra.ANDROID_CLIENT_ID, 
+					scopes: ['profile', 'email']
+				});
+				console.log("RESULT FROM GOOGLEW", result)
+				if(result.type === 'success'){
+					this.props.socialLogin({name: result.user.givenName, email: result.user.email});
+				}
+			}catch(e){
+				this.setState({socialLoginError: googleLoginErrorMessage});
+			}
+  
+		}
+
+>>>>>>> Stashed changes
     render() {
-        const { authenticating, unauthorised, clear } = this.props;
+				const { authenticating, unauthorised, clear } = this.props;
+				const { facebookLoginError } = this.state;
         return (
             <View style={styles.container}>
                 <View styles={styles.video}>
@@ -80,6 +152,27 @@ class StartPage extends React.PureComponent {
                             <Image source={ImagesLogos.logo} style={styles.image} />
                         </View>
                         <View>
+<<<<<<< Updated upstream
+=======
+													<View style={styles.socialButtons}>
+                            <Button
+																large
+																style={styles.actionButton}
+																onPress={this.googleLoginHandler}
+																colour="google"
+																icon={socialIcons.googleLetter}
+                            >Sign in with Google</Button>
+													</View>
+													<View style={styles.socialButtons}>
+                            <Button
+																large
+																style={styles.actionButton}
+																onPress={this.facebookLoginHandler}
+																colour="facebook"
+																icon={socialIcons.facebookRound}
+                            >Sign in with Facebook</Button>
+													</View>
+>>>>>>> Stashed changes
                             <View style={styles.buttons}>
                                 <Button
                                     medium
@@ -93,7 +186,7 @@ class StartPage extends React.PureComponent {
                                     style={styles.actionButton}
                                     onPress={this.onLogin}
                                     colour="white">
-                                    Sign In
+                                    Sign in with email
                                 </Button>
                             </View>
                             {/* <BlankButton onPress={this.onGuestLogin}>
@@ -108,6 +201,12 @@ class StartPage extends React.PureComponent {
                     type="error"
                     message={'There was a problem logging you in, please check your connection'}
                 />
+								<Notification
+                    onClose={clear}
+                    active={facebookLoginError}
+                    type="error"
+                    message={facebookLoginError}
+                />
             </View>
         );
     }
@@ -115,11 +214,12 @@ class StartPage extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        ...state.auth,
+				...state.auth,
+				...state.user
     };
 }
 
-export default connect(mapStateToProps,{ login, clear })(StartPage);
+export default connect(mapStateToProps,{ socialLogin, clear })(StartPage);
 
 const styles = StyleSheet.create({
     container: {
