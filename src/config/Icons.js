@@ -44,8 +44,8 @@ export default {
   solidTickGreen: require('../assets/icons/solid/tick/green.png'),
 
   //Socials
-  solidFacebookRound: require('../assets/icons/solid/facebook/facebook-round.png'),
-  solidFacebookLetter: require('../assets/icons/solid/facebook/facebook-letter.png'),
+  // solidFacebookRound: require('../assets/icons/solid/facebook/facebook-round.png'),
+  // solidFacebookLetter: require('../assets/icons/solid/facebook/facebook-letter.png'),
   solidGoogleLetter: require('../assets/icons/solid/google/google-letter.png'),
 
   // #Config: OUTLINE ICONS
