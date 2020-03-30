@@ -11,15 +11,12 @@ import { Videos } from 'config/AppVideos';
 import { Notification, Loader } from 'components';
 import { ImagesIntro } from 'config/AppIntro';
 import { ImagesLogos } from 'config/AppIcons/AppLogos';
-<<<<<<< Updated upstream
-=======
 import { socialIcons } from 'config/AppIcons/AppIcons';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { expo } from '../../../app.json';
 import Api from 'services/api';
 import { FBLoginErrorMessage, googleLoginErrorMessage, defaultErrorMessage } from 'config/errorMessages';
->>>>>>> Stashed changes
 
 class StartPage extends React.PureComponent {
     state = {
@@ -28,10 +25,7 @@ class StartPage extends React.PureComponent {
 				socialLoginError: null
     };
     componentDidMount() {
-<<<<<<< Updated upstream
-=======
 				console.log("Props from start page", this.props);
->>>>>>> Stashed changes
         this.blurListener = this.props.navigation.addListener('didBlur', () => {
             this.setState({ play: false });
         });
@@ -84,10 +78,6 @@ class StartPage extends React.PureComponent {
                 style={styles.fullScreen}
                 source={Videos.startSmaller2}
             />
-<<<<<<< Updated upstream
-        );
-    }
-=======
 				);
 		}
 
@@ -134,7 +124,6 @@ class StartPage extends React.PureComponent {
   
 		}
 
->>>>>>> Stashed changes
     render() {
 				const { authenticating, unauthorised, clear } = this.props;
 				const { facebookLoginError } = this.state;
@@ -152,8 +141,6 @@ class StartPage extends React.PureComponent {
                             <Image source={ImagesLogos.logo} style={styles.image} />
                         </View>
                         <View>
-<<<<<<< Updated upstream
-=======
 													<View style={styles.socialButtons}>
                             <Button
 																large
@@ -169,10 +156,9 @@ class StartPage extends React.PureComponent {
 																style={styles.actionButton}
 																onPress={this.facebookLoginHandler}
 																colour="facebook"
-																icon={socialIcons.facebookRound}
+																// icon={socialIcons.facebookRound}
                             >Sign in with Facebook</Button>
 													</View>
->>>>>>> Stashed changes
                             <View style={styles.buttons}>
                                 <Button
                                     medium

@@ -219,11 +219,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7'
     },
     icon: {
-<<<<<<< Updated upstream
-      width: 20,
-      height: 20, 
-      marginRight: '12%'
-=======
       width: 30,
       height: 30, 
       marginRight: '6%'
@@ -236,6 +231,5 @@ const styles = StyleSheet.create({
     }, 
     googleText: {
         color: '#000000'
->>>>>>> Stashed changes
     }
 })
